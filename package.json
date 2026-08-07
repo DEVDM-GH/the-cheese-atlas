@@ -1,0 +1,15 @@
+{
+  "name": "the-cheese-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An illustrated field guide to 72 cheeses from around the world — origin, history, texture, use, and Curd Nerd facts.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "start": "npx --yes serve . -l 3000",
+    "screenshots": "node scripts/capture-screenshots.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

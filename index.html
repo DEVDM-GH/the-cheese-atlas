@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cheese Atlas — Origins, History &amp; Fun Facts on 72 World Cheeses</title>
+<meta name="description" content="An illustrated field guide to 72 cheeses from around the world: origin, history, texture, culinary use, and the strangest true stories behind each one.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23d6a138%22/><circle cx=%2235%22 cy=%2238%22 r=%228%22 fill=%22%23a63a2c%22/><circle cx=%2265%22 cy=%2255%22 r=%226%22 fill=%22%23a63a2c%22/><circle cx=%2248%22 cy=%2270%22 r=%227%22 fill=%22%23a63a2c%22/></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="crumb-label">The World, By Rind &amp; Curd</div>
+    <h1 class="title">The Cheese<br><em>Atlas</em></h1>
+    <p class="hero-sub">A field guide to the world's cheese wheels — where each one comes from, how it's made, what it tastes like, and the stranger-than-fiction stories attached to it. From bank-vaulted Parmesan to a Norwegian tunnel fire caused by burning cheese.</p>
+    <div class="hero-stats">
+      <div class="stat"><b id="totalCount">0</b><span>Cheeses catalogued</span></div>
+      <div class="stat"><b id="countryCount">0</b><span>Countries &amp; regions</span></div>
+      <div class="stat"><b>9</b><span>Rind &amp; texture families</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="search-row">
+      <input type="search" id="searchInput" placeholder="Search a cheese, country, or ingredient…" aria-label="Search cheeses">
+      <div class="count-pill"><span id="resultCount">72 cheeses</span></div>
+    </div>
+    <div class="chip-groups">
+      <div class="chip-row">
+        <span class="chip-label">Family</span>
+        <div id="familyChips" style="display:contents;"></div>
+      </div>
+      <div class="chip-row">
+        <span class="chip-label">Region</span>
+        <div id="regionChips" style="display:contents;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="grid-section">
+  <div class="wrap">
+    <div class="grid" id="grid" aria-label="Cheese cards"></div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    Made for the curious and the cheese-obsessed. Facts researched from cheese consortia, food journalism, court records, and a few good legends — legends are labeled as such where the history is more folklore than fact. Photos via Wikimedia Commons.
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" hidden role="dialog" aria-modal="true" aria-label="Cheese detail">
+  <div class="modal">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="data-part1.js"></script>
+<script src="data-part2.js"></script>
+<script src="data-part3.js"></script>
+<script src="data-part4.js"></script>
+<script src="data-part5.js"></script>
+<script src="data-part6.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
