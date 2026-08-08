@@ -41,9 +41,6 @@
   var searchInput = document.getElementById("searchInput");
   var familyChips = document.getElementById("familyChips");
   var regionChips = document.getElementById("regionChips");
-  var modalOverlay = document.getElementById("modalOverlay");
-  var modalBody = document.getElementById("modalBody");
-  var modalCloseBtn = document.getElementById("modalCloseBtn");
   var totalCountEl = document.getElementById("totalCount");
   var countryCountEl = document.getElementById("countryCount");
 
@@ -155,34 +152,35 @@
   }
 
   function openModal(cheese){
-    modalBody.innerHTML =
-      photoSection(cheese) +
-      '<div class="modal-head">' +
-        '<div class="modal-wheel wheel ' + cheese.family + '" aria-hidden="true"></div>' +
-        '<div>' +
-          '<h2 class="modal-name">' + escapeHtml(cheese.name) + '</h2>' +
-          '<div class="modal-meta">' + (flagsFor(cheese.country) ? flagsFor(cheese.country) + ' \u2022 ' : '') + escapeHtml(cheese.milk) + ' milk \u2022 ' + escapeHtml(FAMILY_LABELS[cheese.family] || cheese.family) + ' \u2022 ' + escapeHtml(cheese.region) + '</div>' +
+    Modal.open({
+      html:
+        photoSection(cheese) +
+        '<div class="modal-head">' +
+          '<div class="modal-wheel wheel ' + cheese.family + '" aria-hidden="true"></div>' +
+          '<div>' +
+            '<h2 class="modal-name">' + escapeHtml(cheese.name) + '</h2>' +
+            '<div class="modal-meta">' + (flagsFor(cheese.country) ? flagsFor(cheese.country) + ' \u2022 ' : '') + escapeHtml(cheese.milk) + ' milk \u2022 ' + escapeHtml(FAMILY_LABELS[cheese.family] || cheese.family) + ' \u2022 ' + escapeHtml(cheese.region) + '</div>' +
+          '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="modal-body">' +
-        field("Origin", cheese.origin) +
-        field("Texture", cheese.texture) +
-        field("History", cheese.history) +
-        field("Where it's prevalent", cheese.prevalence) +
-        field("How it's used", cheese.usage) +
-        '<div class="fact-box"><div class="label">Curd Nerd fact</div><div class="value">' + escapeHtml(cheese.fact) + '</div></div>' +
-      '</div>';
-    modalOverlay.hidden = false;
-    document.body.style.overflow = "hidden";
-    modalCloseBtn.focus();
-    wireCarousel();
+        '<div class="modal-body">' +
+          field("Origin", cheese.origin) +
+          field("Texture", cheese.texture) +
+          field("History", cheese.history) +
+          field("Where it's prevalent", cheese.prevalence) +
+          field("How it's used", cheese.usage) +
+          '<div class="fact-box"><div class="label">Curd Nerd fact</div><div class="value">' + escapeHtml(cheese.fact) + '</div></div>' +
+        '</div>',
+      label: "Cheese detail",
+      variant: "detail",
+      onOpen: wireCarousel
+    });
   }
 
   function photoSection(cheese){
     if (!cheese.images || !cheese.images.length) return "";
     var slides = cheese.images.map(function(img, i){
       return '<div class="carousel-slide" data-index="' + i + '" style="' + (i === 0 ? '' : 'display:none;') + '">' +
-        '<img src="' + escapeHtml(img.url) + '" alt="' + escapeHtml(img.alt || cheese.name) + '" loading="lazy">' +
+        '<img src="' + escapeHtml(img.url) + '" alt="' + escapeHtml(img.alt || cheese.name) + '" loading="lazy" crossorigin="anonymous">' +
         (img.credit ? '<div class="carousel-credit">' + escapeHtml(img.credit) + '</div>' : '') +
         '</div>';
     }).join("");
@@ -215,19 +213,6 @@
   function field(label, value){
     return '<div class="field"><div class="label">' + escapeHtml(label) + '</div><div class="value">' + escapeHtml(value) + '</div></div>';
   }
-
-  function closeModal(){
-    modalOverlay.hidden = true;
-    document.body.style.overflow = "";
-  }
-
-  modalCloseBtn.addEventListener("click", closeModal);
-  modalOverlay.addEventListener("click", function(e){
-    if (e.target === modalOverlay) closeModal();
-  });
-  document.addEventListener("keydown", function(e){
-    if (e.key === "Escape" && !modalOverlay.hidden) closeModal();
-  });
 
   searchInput.addEventListener("input", function(){
     CheeseStore.set({ query: searchInput.value });
