@@ -158,9 +158,15 @@ isBizarreLore: true   // curated Story Wheel pool membership
 
 Every record carries the field explicitly, including `false`. A missing value is a validation error, never an implied `false`.
 
-**Migration method — scripted injection, not hand editing.** `docs/TCA2/MATRIX-TABLE.json` is the machine-readable lookup of `id → { mildStinky, softHard }`. A one-shot Node script reads each `data-part*.js`, matches records by `id`, and inserts the four fields. Everything else in those files — prose, images, formatting — is left untouched.
+**Step 1 splits into two commits, because the data files are minified.** Each `data-part*.js` is a single ~13 KB line. Injecting fields in place would rewrite that one line, so git would report the entire file deleted and re-added — an unreviewable diff that could hide arbitrary prose changes. The earlier claim of "288 added lines, zero deletions" presupposed a one-key-per-line format the repo does not currently have. Rather than drop that criterion, restore the format it assumes.
 
-This is deliberately *not* a regeneration of the data files from a complete external dataset. Such a file existed (`TCA-FULL-DATA-WITH-MATRIX-DATA.md`, since deleted) but it was scraped from the live site, and regenerating from it would have risked silent prose drift in `history`, `fact`, and `usage` fields that nobody would notice. Injecting fields into the existing files is the lower-risk operation, and the diff is trivially reviewable: exactly four added lines per record, 288 lines total, no deletions. `data-part1.js`…`data-part6.js` are the sole source of truth for cheese prose.
+The minification is a fossil. These files were flattened to fit the per-push payload limit of the in-chat `deploy_to_vercel` tool — the same 15–20 KB constraint retired under 9.1, which never came from Vercel and does not apply to a git-based pipeline. The reason for the format is gone; the format outlived it. Every future data change in Phases 2–4 hits this same wall until someone reformats, so pay the cost once, here, in isolation.
+
+**Step 1a — reformat only.** Parse each `data-part*.js`, re-emit it pretty-printed with one key per line, and change nothing else. Verify by asserting that `JSON.parse` of the before and after states are deeply equal for all 72 records — a stronger guarantee of zero prose drift than any human reading a diff, since it compares every byte of every field rather than relying on the eye. Commit alone, with no other change. Expect the file size to roughly double; this is irrelevant, as Vercel gzips and there is no size ceiling.
+
+**Step 1b — scripted injection, not hand editing.** `docs/TCA2/MATRIX-TABLE.json` is the machine-readable lookup of `id → { mildStinky, softHard }`. A one-shot Node script reads each reformatted file, matches records by `id`, and inserts the four fields. Against the Step 1a format this yields exactly four added lines per record — 288 lines total, no deletions — so the acceptance criterion holds as originally written and the diff is genuinely reviewable by eye.
+
+This is deliberately *not* a regeneration of the data files from a complete external dataset. Such a file existed (`TCA-FULL-DATA-WITH-MATRIX-DATA.md`, since deleted) but it was scraped from the live site, and regenerating from it would have risked silent prose drift in `history`, `fact`, and `usage` fields that nobody would notice. `data-part1.js`…`data-part6.js` are the sole source of truth for cheese prose.
 
 **Story Wheel pool authoring.** `isBizarreLore` was the one editorial part of this migration, and it is now settled: Appendix A’s **40 approved ids** are the input. Copy the `BIZARRE_LORE_IDS` array from Appendix A into the migration script and set `isBizarreLore: true` for membership, `false` for the other 32 — every record gets the field explicitly, so a missing flag is always a bug rather than an opt-out.
 
@@ -504,7 +510,8 @@ flowchart TD
 - All 72 records carry `schemaVersion: 2`, `mildStinky`, `softHard`, and an explicit `isBizarreLore`.
 - Every record's scores match `docs/TCA2/MATRIX-TABLE.json` exactly.
 - The Story Wheel pool is exactly the 40 approved ids in Appendix A, and `npm run check` fails if it drifts by even one entry.
-- The migration diff contains only additions — 288 added lines, zero deletions, no prose changed.
+- The Step 1a reformat commit changes no data: `JSON.parse` before and after are deeply equal across all 72 records.
+- The Step 1b migration diff contains only additions — 288 added lines, zero deletions, no prose changed.
 
 ---
 
@@ -589,19 +596,20 @@ These were adopted from an external spec (`gemini-code-1786176321445.md`, review
 
 ## 10. Suggested commit sequence
 
-1. `chore: add TCA2 planning and research docs` (resolves 9.8, if agreed — includes `MATRIX-TABLE.json`)
-2. `data: migrate cheese records to schemaVersion 2 with mildStinky and softHard`
-3. `build: add cheese data integrity validation script`
-4. `feat: add config.js feature flag system`
-5. `refactor: introduce central store with EventTarget pub/sub`
-6. `perf: build grid once and filter by visibility toggle`
-7. `refactor: extract shared modal primitive with focus trap`
-8. `feat: add motion tokens and cheese wire modal transition`
-9. `feat: add flavor and texture matrix`
-10. `feat: add surprise story wheel`
-11. `docs: add architecture-design.md and update README`
+1. `chore: add TCA2 planning and research docs` (resolves 9.8, if agreed — includes `MATRIX-TABLE.json`) — **done, `74e4851`**
+2. `style: pretty-print cheese data files` (Step 1a — reformat only, no data change, verified by deep-equal)
+3. `data: migrate cheese records to schemaVersion 2 with mildStinky and softHard` (Step 1b)
+4. `build: add cheese data integrity validation script`
+5. `feat: add config.js feature flag system`
+6. `refactor: introduce central store with EventTarget pub/sub`
+7. `perf: build grid once and filter by visibility toggle`
+8. `refactor: extract shared modal primitive with focus trap`
+9. `feat: add motion tokens and cheese wire modal transition`
+10. `feat: add flavor and texture matrix`
+11. `feat: add surprise story wheel`
+12. `docs: add architecture-design.md and update README`
 
-Commits 2–7 are behaviour-neutral and independently revertible, the one deliberate exception being the modal focus-trap fix in commit 7.
+Commits 2–8 are behaviour-neutral and independently revertible, the one deliberate exception being the modal focus-trap fix in commit 8.
 
 ---
 
