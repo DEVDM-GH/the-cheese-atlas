@@ -1,1 +1,191 @@
-window.CHEESES = (window.CHEESES || []).concat([{"id":"chevre","name":"Chèvre (Crottin de Chavignol)","country":"France","region":"Europe","family":"fresh","milk":"Goat","origin":"Chavignol, Loire Valley, France","history":"'Crottin' comes from the old French word for a small oil lamp the cheese resembled in shape and size, made in the Loire Valley since at least the 16th century alongside the region's Sancerre vineyards.","prevalence":"One of France's best-known AOC goat cheeses, and representative of a huge broader family of French chèvres.","usage":"Grilled or baked warm atop a salad, sliced onto crackers, or eaten at varying ages from fresh and mild to firm and intensely goaty.","texture":"Fresh versions are soft and moist; aged versions firm up and develop a wrinkled natural rind.","fact":"Sancerre wine and Crottin de Chavignol come from the very same small patch of the Loire Valley and are considered one of France's classic food-and-wine pairings — a rare case of a cheese and a wine literally growing up together in the same vineyards."},{"id":"vieux-boulogne","name":"Vieux Boulogne","country":"France","region":"Europe","family":"washed-rind","milk":"Cow","origin":"Boulogne-sur-Mer, northern France","history":"Invented in 1982 by cheesemakers Antoine Bernard and Philippe Olivier — making it a relatively modern cheese by French standards — its rind is washed in local beer during aging, and the interaction between the beer's bacteria and the cheese's surface produces its famously overwhelming aroma.","prevalence":"A niche specialty even within France, hard to find outside its home region around Boulogne-sur-Mer.","usage":"Served on a cheese board with crusty bread and beer, typically as a bold finale to a meal.","texture":"Soft and elastic beneath a moist, beer-washed orange rind.","fact":"In a scientific sniff test by Cranfield University using both human panelists and an electronic 'nose,' Vieux Boulogne was crowned the smelliest cheese in the world — one tester reportedly detected it from 50 meters away — despite tasting notably mild and mellow underneath its stinky rind."},{"id":"neufchatel","name":"Neufchâtel","country":"France","region":"Europe","family":"soft-ripened","milk":"Cow","origin":"Neufchâtel-en-Bray, Normandy, France","history":"One of the oldest cheeses in Normandy, with references dating back to the 6th century and a medieval legend that local women gave heart-shaped versions to occupying English soldiers during the Hundred Years' War as a token of affection — giving rise to its traditional heart shape, still used today.","prevalence":"A protected AOC cheese in France, though the name is also used, confusingly, in North America for a lower-fat cream cheese substitute unrelated to the original.","usage":"Eaten young and fresh, or aged slightly for a firmer, more pungent version; served on a cheese board.","texture":"Soft and slightly crumbly when young, denser and more pungent with age, often molded into a distinctive heart shape.","fact":"American 'Neufchâtel cheese' sold in supermarkets — a lower-fat cousin of cream cheese — bears almost no resemblance to the actual French AOC cheese of the same name, a soft, bloomy-rind, heart-shaped cheese from Normandy; the American version simply borrowed the name in the 19th century."},{"id":"gruyere","name":"Gruyère","country":"Switzerland","region":"Europe","family":"hard","milk":"Cow","origin":"Gruyères, canton of Fribourg, Switzerland","history":"Named after the town of Gruyères, with documented production stretching back to at least the 12th century, developed alongside Alpine transhumance farming, when herders moved cattle to high summer pastures and needed a way to preserve the resulting milk.","prevalence":"One of Switzerland's two most famous cheeses (with Emmental), central to Swiss and French Alpine cuisine and widely exported.","usage":"A key ingredient in classic fondue and French onion soup; melted into croque-monsieur; eaten as a table cheese.","texture":"Firm and dense, smooth in texture, with a complex nutty, slightly sweet flavor that deepens with age.","fact":"In 2023, a US federal appeals court ruled that American cheesemakers can legally call their cheese 'gruyere' regardless of where it's made, finding that US consumers understand the word as a type of cheese rather than a place — a decision Swiss and French producers strongly disputed.","images":[{"url":"https://upload.wikimedia.org/wikipedia/commons/f/fa/Gruy%C3%A8re.jpg","alt":"Wedge of Gruyère cheese","credit":"Wikimedia Commons"}]},{"id":"emmental","name":"Emmental","country":"Switzerland","region":"Europe","family":"hard","milk":"Cow","origin":"Emme Valley, canton of Bern, Switzerland","history":"The original 'Swiss cheese' with the holes, dating back centuries in the Emme Valley. For over a century it was assumed the characteristic holes ('eyes') were caused entirely by carbon dioxide from bacteria.","prevalence":"One of the most widely copied cheese styles in the world, with 'Swiss cheese' produced across the US, Scandinavia, and beyond, though genuine Swiss Emmental is a protected designation.","usage":"Melted into fondue and sandwiches, sliced for cold cuts, or grated into gratins.","texture":"Firm, smooth, and pale yellow, famous for its large, irregular holes.","fact":"For decades, real Emmental's holes were mysteriously shrinking — until Swiss researchers discovered in 2015 that the holes actually come from microscopic hay-dust particles that fall into milk during traditional barn milking, and that modern, ultra-clean automated milking was removing the hay dust (and the holes) along with the dirt.","images":[{"url":"https://upload.wikimedia.org/wikipedia/commons/c/c2/Emmentaler.jpg","alt":"Emmental cheese with characteristic holes","credit":"Wikimedia Commons"}]},{"id":"appenzeller","name":"Appenzeller","country":"Switzerland","region":"Europe","family":"semi-hard","milk":"Cow","origin":"Appenzell region, northeastern Switzerland","history":"Documented since at least the 13th century, its rind is washed in a secret herbal-and-wine brine — the exact recipe is a closely guarded trade secret passed down among Appenzeller cheesemakers.","prevalence":"One of Switzerland's most popular table cheeses domestically, though less exported than Gruyère or Emmental.","usage":"Eaten as a table and snacking cheese, melted into raclette-style dishes, or served with bread and cider.","texture":"Firm and smooth with a distinctly pungent, spicy aroma from its washed rind.","fact":"The exact herbal brine used to wash Appenzeller's rind has reportedly never been published or fully disclosed outside a small circle of cheesemakers — making it one of the few well-known cheeses whose signature flavor genuinely depends on a kept trade secret."},{"id":"vacherin-mont-dor","name":"Vacherin Mont d'Or","country":"Switzerland / France","region":"Europe","family":"soft-ripened","milk":"Cow","origin":"Jura mountains, on both the Swiss and French sides of the border","history":"A seasonal cheese traditionally made only from autumn milk, when cows return from high pastures and produce less milk of a richer character. It's bound in a strip of spruce bark, which both holds its soft form and imparts a resinous, woodsy aroma.","prevalence":"A beloved winter delicacy in both Switzerland and France's Jura region, traditionally available only from autumn through winter.","usage":"Served warm, often baked in its wooden box with white wine or garlic and eaten with a spoon straight from the rind, alongside boiled potatoes.","texture":"Extremely soft and almost runny when ripe, contained by its spruce-bark band and wooden box.","fact":"Vacherin Mont d'Or is so soft at peak ripeness that it's often eaten by cutting a hole in the top of the rind and spooning out the molten interior directly from its wooden box, rather than slicing it at all."},{"id":"raclette","name":"Raclette","country":"Switzerland / France","region":"Europe","family":"semi-hard","milk":"Cow","origin":"Valais, Swiss Alps (also made in French Savoy)","history":"Named after the French verb 'racler' (to scrape), describing the traditional method of melting a half-wheel of cheese by an open fire and scraping the molten layer onto plates — a practice dating back to medieval Alpine herders who melted cheese over campfires.","prevalence":"Both a specific cheese and a whole social dining tradition across Switzerland and France, especially popular in winter.","usage":"Melted, traditionally over an open flame and now often with a tabletop raclette grill, and scraped over boiled potatoes, pickles, and charcuterie.","texture":"Semi-firm and smooth, melts into a silky, stretchy layer when heated.","fact":"Raclette is as much a social ritual as a cheese — tabletop electric raclette grills, which let diners melt their own individual portions at a shared table, turned the dish into a fixture of French and Swiss holiday dinner parties."},{"id":"cheddar","name":"Cheddar","country":"England","region":"Europe","family":"hard","milk":"Cow","origin":"Cheddar Gorge, Somerset, England","history":"Named after the village of Cheddar, where limestone caves in the Gorge provided a naturally cool, humid environment ideal for aging cheese. Records of cheesemaking there date back over 800 years, and the technique of 'cheddaring' (repeatedly cutting, stacking, and turning slabs of curd to expel whey) gave the cheese its name and texture.","prevalence":"The most-produced and most-copied cheese style in the world; genuine West Country Farmhouse Cheddar is a protected PDO, but generic 'cheddar' is made virtually everywhere cheese is made.","usage":"Sliced for sandwiches, melted onto burgers and into mac and cheese, grated over countless dishes, or eaten as a sharp, aged table cheese.","texture":"Firm and dense, ranging from smooth and mild when young to crumbly and sharp with age.","fact":"In 2024, a fraudster posing as a French wholesale distributor conned London's Neal's Yard Dairy out of 22 metric tons of award-winning clothbound cheddar worth over £300,000 — one of several major cheddar heists in recent years that have made cheese one of the UK's most-stolen food products.","images":[{"url":"https://upload.wikimedia.org/wikipedia/commons/1/18/Somerset-Cheddar.jpg","alt":"Block of Cheddar cheese","credit":"Wikimedia Commons"}]},{"id":"double-gloucester","name":"Double Gloucester","country":"England","region":"Europe","family":"hard","milk":"Cow","origin":"Gloucestershire, England","history":"Traditionally colored a deep orange-red with annatto (a natural plant dye), historically made from richer milk than its paler cousin, Single Gloucester, and originally made only with milk from the now-rare Old Gloucester cattle breed.","prevalence":"Still produced in Gloucestershire and sold across the UK, though most famous today for one very specific tradition.","usage":"Sliced for sandwiches and cheese boards, melted into rarebit, or — most famously — chased down a hill.","texture":"Firm, smooth, and slightly crumbly, with a mellow, nutty flavor.","fact":"Every spring, competitors at the Cooper's Hill Cheese-Rolling and Wake in Brockworth chase a wheel of Double Gloucester down a steep, 200-yard hill so severe that almost nobody stays on their feet; the cheese can hit speeds near 70mph, and the race regularly sends competitors to hospital with broken bones."},{"id":"red-leicester","name":"Red Leicester","country":"England","region":"Europe","family":"hard","milk":"Cow","origin":"Leicestershire, England","history":"One of England's oldest named cheeses, its distinctive orange-red color (also from annatto) traditionally signaled a richer, higher-quality cheese to buyers in an era before nutritional labeling existed.","prevalence":"Widely available across the UK as an everyday table and cooking cheese, less internationally famous than Cheddar or Stilton.","usage":"Sliced for sandwiches, grated into cheese sauces and toasties, or eaten with fruit chutneys.","texture":"Firm, slightly flaky, with a mellow, sweet-nutty flavor milder than mature Cheddar.","fact":"Red Leicester's bright orange color was originally a marketing signal rather than a flavor choice — 18th-century cheesemongers used it to distinguish their 'premium' cheese on the shelf, a coloring tradition that stuck around long after anyone needed convincing."},{"id":"wensleydale","name":"Wensleydale","country":"England","region":"Europe","family":"semi-hard","milk":"Cow (traditionally also Sheep)","origin":"Wensleydale, Yorkshire Dales, England","history":"Introduced by French Cistercian monks who settled in Wensleydale in the 12th century and originally made it from sheep's milk; production shifted mostly to cow's milk over the centuries as sheep farming in the Dales declined.","prevalence":"A beloved Yorkshire cheese, and — thanks to a certain claymation duo — one of the best-known British cheeses among children worldwide.","usage":"Traditionally paired with fruitcake or apple pie; crumbled over salads; eaten with crackers.","texture":"Crumbly, moist, and mild, with a slightly honeyed tang.","fact":"Wensleydale's fame skyrocketed after it became Wallace's favorite cheese in the Wallace & Gromit films — British schoolchildren reportedly named it their favorite cheese in polls after the movies came out, and Wensleydale Creamery credited the films with helping save the local cheesemaking industry from closure."}]);
+window.CHEESES = (window.CHEESES || []).concat([
+  {
+    "id": "chevre",
+    "name": "Chèvre (Crottin de Chavignol)",
+    "country": "France",
+    "region": "Europe",
+    "family": "fresh",
+    "milk": "Goat",
+    "origin": "Chavignol, Loire Valley, France",
+    "history": "'Crottin' comes from the old French word for a small oil lamp the cheese resembled in shape and size, made in the Loire Valley since at least the 16th century alongside the region's Sancerre vineyards.",
+    "prevalence": "One of France's best-known AOC goat cheeses, and representative of a huge broader family of French chèvres.",
+    "usage": "Grilled or baked warm atop a salad, sliced onto crackers, or eaten at varying ages from fresh and mild to firm and intensely goaty.",
+    "texture": "Fresh versions are soft and moist; aged versions firm up and develop a wrinkled natural rind.",
+    "fact": "Sancerre wine and Crottin de Chavignol come from the very same small patch of the Loire Valley and are considered one of France's classic food-and-wine pairings — a rare case of a cheese and a wine literally growing up together in the same vineyards."
+  },
+  {
+    "id": "vieux-boulogne",
+    "name": "Vieux Boulogne",
+    "country": "France",
+    "region": "Europe",
+    "family": "washed-rind",
+    "milk": "Cow",
+    "origin": "Boulogne-sur-Mer, northern France",
+    "history": "Invented in 1982 by cheesemakers Antoine Bernard and Philippe Olivier — making it a relatively modern cheese by French standards — its rind is washed in local beer during aging, and the interaction between the beer's bacteria and the cheese's surface produces its famously overwhelming aroma.",
+    "prevalence": "A niche specialty even within France, hard to find outside its home region around Boulogne-sur-Mer.",
+    "usage": "Served on a cheese board with crusty bread and beer, typically as a bold finale to a meal.",
+    "texture": "Soft and elastic beneath a moist, beer-washed orange rind.",
+    "fact": "In a scientific sniff test by Cranfield University using both human panelists and an electronic 'nose,' Vieux Boulogne was crowned the smelliest cheese in the world — one tester reportedly detected it from 50 meters away — despite tasting notably mild and mellow underneath its stinky rind."
+  },
+  {
+    "id": "neufchatel",
+    "name": "Neufchâtel",
+    "country": "France",
+    "region": "Europe",
+    "family": "soft-ripened",
+    "milk": "Cow",
+    "origin": "Neufchâtel-en-Bray, Normandy, France",
+    "history": "One of the oldest cheeses in Normandy, with references dating back to the 6th century and a medieval legend that local women gave heart-shaped versions to occupying English soldiers during the Hundred Years' War as a token of affection — giving rise to its traditional heart shape, still used today.",
+    "prevalence": "A protected AOC cheese in France, though the name is also used, confusingly, in North America for a lower-fat cream cheese substitute unrelated to the original.",
+    "usage": "Eaten young and fresh, or aged slightly for a firmer, more pungent version; served on a cheese board.",
+    "texture": "Soft and slightly crumbly when young, denser and more pungent with age, often molded into a distinctive heart shape.",
+    "fact": "American 'Neufchâtel cheese' sold in supermarkets — a lower-fat cousin of cream cheese — bears almost no resemblance to the actual French AOC cheese of the same name, a soft, bloomy-rind, heart-shaped cheese from Normandy; the American version simply borrowed the name in the 19th century."
+  },
+  {
+    "id": "gruyere",
+    "name": "Gruyère",
+    "country": "Switzerland",
+    "region": "Europe",
+    "family": "hard",
+    "milk": "Cow",
+    "origin": "Gruyères, canton of Fribourg, Switzerland",
+    "history": "Named after the town of Gruyères, with documented production stretching back to at least the 12th century, developed alongside Alpine transhumance farming, when herders moved cattle to high summer pastures and needed a way to preserve the resulting milk.",
+    "prevalence": "One of Switzerland's two most famous cheeses (with Emmental), central to Swiss and French Alpine cuisine and widely exported.",
+    "usage": "A key ingredient in classic fondue and French onion soup; melted into croque-monsieur; eaten as a table cheese.",
+    "texture": "Firm and dense, smooth in texture, with a complex nutty, slightly sweet flavor that deepens with age.",
+    "fact": "In 2023, a US federal appeals court ruled that American cheesemakers can legally call their cheese 'gruyere' regardless of where it's made, finding that US consumers understand the word as a type of cheese rather than a place — a decision Swiss and French producers strongly disputed.",
+    "images": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Gruy%C3%A8re.jpg",
+        "alt": "Wedge of Gruyère cheese",
+        "credit": "Wikimedia Commons"
+      }
+    ]
+  },
+  {
+    "id": "emmental",
+    "name": "Emmental",
+    "country": "Switzerland",
+    "region": "Europe",
+    "family": "hard",
+    "milk": "Cow",
+    "origin": "Emme Valley, canton of Bern, Switzerland",
+    "history": "The original 'Swiss cheese' with the holes, dating back centuries in the Emme Valley. For over a century it was assumed the characteristic holes ('eyes') were caused entirely by carbon dioxide from bacteria.",
+    "prevalence": "One of the most widely copied cheese styles in the world, with 'Swiss cheese' produced across the US, Scandinavia, and beyond, though genuine Swiss Emmental is a protected designation.",
+    "usage": "Melted into fondue and sandwiches, sliced for cold cuts, or grated into gratins.",
+    "texture": "Firm, smooth, and pale yellow, famous for its large, irregular holes.",
+    "fact": "For decades, real Emmental's holes were mysteriously shrinking — until Swiss researchers discovered in 2015 that the holes actually come from microscopic hay-dust particles that fall into milk during traditional barn milking, and that modern, ultra-clean automated milking was removing the hay dust (and the holes) along with the dirt.",
+    "images": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Emmentaler.jpg",
+        "alt": "Emmental cheese with characteristic holes",
+        "credit": "Wikimedia Commons"
+      }
+    ]
+  },
+  {
+    "id": "appenzeller",
+    "name": "Appenzeller",
+    "country": "Switzerland",
+    "region": "Europe",
+    "family": "semi-hard",
+    "milk": "Cow",
+    "origin": "Appenzell region, northeastern Switzerland",
+    "history": "Documented since at least the 13th century, its rind is washed in a secret herbal-and-wine brine — the exact recipe is a closely guarded trade secret passed down among Appenzeller cheesemakers.",
+    "prevalence": "One of Switzerland's most popular table cheeses domestically, though less exported than Gruyère or Emmental.",
+    "usage": "Eaten as a table and snacking cheese, melted into raclette-style dishes, or served with bread and cider.",
+    "texture": "Firm and smooth with a distinctly pungent, spicy aroma from its washed rind.",
+    "fact": "The exact herbal brine used to wash Appenzeller's rind has reportedly never been published or fully disclosed outside a small circle of cheesemakers — making it one of the few well-known cheeses whose signature flavor genuinely depends on a kept trade secret."
+  },
+  {
+    "id": "vacherin-mont-dor",
+    "name": "Vacherin Mont d'Or",
+    "country": "Switzerland / France",
+    "region": "Europe",
+    "family": "soft-ripened",
+    "milk": "Cow",
+    "origin": "Jura mountains, on both the Swiss and French sides of the border",
+    "history": "A seasonal cheese traditionally made only from autumn milk, when cows return from high pastures and produce less milk of a richer character. It's bound in a strip of spruce bark, which both holds its soft form and imparts a resinous, woodsy aroma.",
+    "prevalence": "A beloved winter delicacy in both Switzerland and France's Jura region, traditionally available only from autumn through winter.",
+    "usage": "Served warm, often baked in its wooden box with white wine or garlic and eaten with a spoon straight from the rind, alongside boiled potatoes.",
+    "texture": "Extremely soft and almost runny when ripe, contained by its spruce-bark band and wooden box.",
+    "fact": "Vacherin Mont d'Or is so soft at peak ripeness that it's often eaten by cutting a hole in the top of the rind and spooning out the molten interior directly from its wooden box, rather than slicing it at all."
+  },
+  {
+    "id": "raclette",
+    "name": "Raclette",
+    "country": "Switzerland / France",
+    "region": "Europe",
+    "family": "semi-hard",
+    "milk": "Cow",
+    "origin": "Valais, Swiss Alps (also made in French Savoy)",
+    "history": "Named after the French verb 'racler' (to scrape), describing the traditional method of melting a half-wheel of cheese by an open fire and scraping the molten layer onto plates — a practice dating back to medieval Alpine herders who melted cheese over campfires.",
+    "prevalence": "Both a specific cheese and a whole social dining tradition across Switzerland and France, especially popular in winter.",
+    "usage": "Melted, traditionally over an open flame and now often with a tabletop raclette grill, and scraped over boiled potatoes, pickles, and charcuterie.",
+    "texture": "Semi-firm and smooth, melts into a silky, stretchy layer when heated.",
+    "fact": "Raclette is as much a social ritual as a cheese — tabletop electric raclette grills, which let diners melt their own individual portions at a shared table, turned the dish into a fixture of French and Swiss holiday dinner parties."
+  },
+  {
+    "id": "cheddar",
+    "name": "Cheddar",
+    "country": "England",
+    "region": "Europe",
+    "family": "hard",
+    "milk": "Cow",
+    "origin": "Cheddar Gorge, Somerset, England",
+    "history": "Named after the village of Cheddar, where limestone caves in the Gorge provided a naturally cool, humid environment ideal for aging cheese. Records of cheesemaking there date back over 800 years, and the technique of 'cheddaring' (repeatedly cutting, stacking, and turning slabs of curd to expel whey) gave the cheese its name and texture.",
+    "prevalence": "The most-produced and most-copied cheese style in the world; genuine West Country Farmhouse Cheddar is a protected PDO, but generic 'cheddar' is made virtually everywhere cheese is made.",
+    "usage": "Sliced for sandwiches, melted onto burgers and into mac and cheese, grated over countless dishes, or eaten as a sharp, aged table cheese.",
+    "texture": "Firm and dense, ranging from smooth and mild when young to crumbly and sharp with age.",
+    "fact": "In 2024, a fraudster posing as a French wholesale distributor conned London's Neal's Yard Dairy out of 22 metric tons of award-winning clothbound cheddar worth over £300,000 — one of several major cheddar heists in recent years that have made cheese one of the UK's most-stolen food products.",
+    "images": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Somerset-Cheddar.jpg",
+        "alt": "Block of Cheddar cheese",
+        "credit": "Wikimedia Commons"
+      }
+    ]
+  },
+  {
+    "id": "double-gloucester",
+    "name": "Double Gloucester",
+    "country": "England",
+    "region": "Europe",
+    "family": "hard",
+    "milk": "Cow",
+    "origin": "Gloucestershire, England",
+    "history": "Traditionally colored a deep orange-red with annatto (a natural plant dye), historically made from richer milk than its paler cousin, Single Gloucester, and originally made only with milk from the now-rare Old Gloucester cattle breed.",
+    "prevalence": "Still produced in Gloucestershire and sold across the UK, though most famous today for one very specific tradition.",
+    "usage": "Sliced for sandwiches and cheese boards, melted into rarebit, or — most famously — chased down a hill.",
+    "texture": "Firm, smooth, and slightly crumbly, with a mellow, nutty flavor.",
+    "fact": "Every spring, competitors at the Cooper's Hill Cheese-Rolling and Wake in Brockworth chase a wheel of Double Gloucester down a steep, 200-yard hill so severe that almost nobody stays on their feet; the cheese can hit speeds near 70mph, and the race regularly sends competitors to hospital with broken bones."
+  },
+  {
+    "id": "red-leicester",
+    "name": "Red Leicester",
+    "country": "England",
+    "region": "Europe",
+    "family": "hard",
+    "milk": "Cow",
+    "origin": "Leicestershire, England",
+    "history": "One of England's oldest named cheeses, its distinctive orange-red color (also from annatto) traditionally signaled a richer, higher-quality cheese to buyers in an era before nutritional labeling existed.",
+    "prevalence": "Widely available across the UK as an everyday table and cooking cheese, less internationally famous than Cheddar or Stilton.",
+    "usage": "Sliced for sandwiches, grated into cheese sauces and toasties, or eaten with fruit chutneys.",
+    "texture": "Firm, slightly flaky, with a mellow, sweet-nutty flavor milder than mature Cheddar.",
+    "fact": "Red Leicester's bright orange color was originally a marketing signal rather than a flavor choice — 18th-century cheesemongers used it to distinguish their 'premium' cheese on the shelf, a coloring tradition that stuck around long after anyone needed convincing."
+  },
+  {
+    "id": "wensleydale",
+    "name": "Wensleydale",
+    "country": "England",
+    "region": "Europe",
+    "family": "semi-hard",
+    "milk": "Cow (traditionally also Sheep)",
+    "origin": "Wensleydale, Yorkshire Dales, England",
+    "history": "Introduced by French Cistercian monks who settled in Wensleydale in the 12th century and originally made it from sheep's milk; production shifted mostly to cow's milk over the centuries as sheep farming in the Dales declined.",
+    "prevalence": "A beloved Yorkshire cheese, and — thanks to a certain claymation duo — one of the best-known British cheeses among children worldwide.",
+    "usage": "Traditionally paired with fruitcake or apple pie; crumbled over salads; eaten with crackers.",
+    "texture": "Crumbly, moist, and mild, with a slightly honeyed tang.",
+    "fact": "Wensleydale's fame skyrocketed after it became Wallace's favorite cheese in the Wallace & Gromit films — British schoolchildren reportedly named it their favorite cheese in polls after the movies came out, and Wensleydale Creamery credited the films with helping save the local cheesemaking industry from closure."
+  }
+]);
