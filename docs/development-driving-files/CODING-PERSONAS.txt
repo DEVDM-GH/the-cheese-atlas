@@ -1,0 +1,62 @@
+Five Personas — The Team Building Cheese Atlas 2.0
+
+If this were built by a lean startup team instead of solo, here's roughly who'd exist and what they'd fight over.
+
+
+1. Meera Iyer — Founder / Product Lead
+
+"Ship the thing people screenshot, not the thing that's technically impressive."
+
+Ex-PM from a food-media startup, thinks in retention and shareability, not features. Owns prioritization: decides the Matrix ships before the Quiz, that Cheese-of-the-Day beats a full recommendation engine for v1, and that the Board Builder's success metric is "did anyone export an image," not "did anyone open the modal."
+
+- Writes a one-page spec per feature: problem, success metric, non-goals — before anyone touches code.
+- Runs a weekly triage sorting the backlog into "cheap & high-impact," "flagship," and "cut" — refuses to let scope creep turn a matrix into a recommendation engine.
+- Friction: pushes to ship the map before it's fully accessible; gets overruled by Sana and Devansh more often than she'd like.
+
+
+2. Rohan Das — Frontend / Design Systems Engineer
+
+"If it's not 60fps on a three-year-old Android phone, it's not done."
+
+Owns everything that moves: the matrix drag, the map hover states, card tilt, the cheese-cut modal transition, the command palette. The person who turns Meera's spec into actual interaction.
+
+- Builds one shared state object with pub/sub events so Matrix, Map, Search, and Compare never fight over who owns "the current filter."
+- Sets a performance budget per feature (e.g., matrix filter must update in under 16ms) and checks it in CI with Lighthouse, not vibes.
+- Respects prefers-reduced-motion by default, not as a bolt-on — animations are additive, never load-bearing.
+- Friction: wants the 3D tilt effect everywhere; Sana keeps him to two or three "hero" moments instead of animating the whole grid.
+
+
+3. Sana Kapoor — Product Designer (UX / Motion)
+
+"Every hover-and-drag idea needs a tap-and-keyboard sibling before it ships."
+
+Owns the visual system: rind-texture swatches, milk-type iconography, the shareable cheese-card layout, motion tokens (easing, duration). The person who keeps five different "delight" features from feeling like five different apps.
+
+- Designs mobile-first — the matrix and map are drafted for touch before hover is even considered.
+- Defines an accessible fallback alongside every gestural feature, not after: a native <select> under the map, a text list under the matrix.
+- Runs quick usability checks on gamified features (Passport, Quiz) with real people before sign-off — gut feel isn't enough for anything meant to be "fun."
+- Friction: her accessibility asks routinely add a sprint to Rohan's estimates; she doesn't budge on it.
+
+
+4. Devansh Rao — QA / SDET
+
+"A silent wrong answer is worse than a crash."
+
+Owns the Playwright suite, visual regression on the animations, and the boring-but-critical edge cases: does the Passport survive a reload, does the site work in Safari private mode, does the matrix behave with a screen reader. The role closest to Devadutta's own day job — which makes this the persona most likely to actually get built out for real.
+
+- Structures tests as a pyramid: unit tests on pure logic (Twin scoring, date-seeded picker, filter functions), E2E on the interactive flows, visual diffs only on the handful of features where a CSS regression would be invisible otherwise (card tilt, modal transition).
+- Gates merges in CI on the E2E suite passing — no "we'll fix it after launch."
+- Writes test plans directly against the four user personas from the earlier doc, so coverage maps to real usage, not just code paths.
+- Friction: routinely delays Meera's "ship it Friday" plan by a day to add coverage for a persistence edge case nobody else thought of.
+
+
+5. Kabir Singh — Platform / Data Engineer
+
+"The deploy pipeline should catch what Vercel used to catch by surprise."
+
+Owns the data architecture and the deploy pipeline: chunking discipline, schema versioning, preview deployments, and — if the Passport ever needs cross-device sync — the lightest possible backend to support it.
+
+- Adds a pre-deploy script that checks every chunked data file against Vercel's size ceiling, so a file never silently gets dropped again.
+- Versions the data schema (schemaVersion) before new fields (rarity, milk-type, Twin relationships) get bolted on ad hoc.
+- Sets up preview deployments per feature branch so Map, Matrix, and Passport can be reviewed independently before merging into main.
+- Friction: the most conservative voice in the room — slows down "let's just ship straight to prod" instincts from Meera and Rohan.

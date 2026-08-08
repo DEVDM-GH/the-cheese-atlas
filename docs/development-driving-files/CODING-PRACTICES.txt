@@ -1,0 +1,45 @@
+Data & content architecture
+
+- Keep the chunking discipline that already saved you once — one JSON/JS file per country/family, and add a small pre-deploy script that checks file sizes against Vercel's per-file ceiling so a chunk never silently gets dropped again.
+- Add a schemaVersion field to your cheese data now, before Twins, rarity tags, and milk-type icons all start adding new fields — makes future migrations non-breaking.
+
+
+State management without a framework
+
+- Once Matrix, Map, Search, and Compare all need to filter the same grid, scattered DOM queries won't scale — use one small central state object with a pub/sub layer (plain EventTarget custom events are enough, no library needed).
+- Debounce the matrix drag and map hover handlers with requestAnimationFrame so real-time filtering doesn't jank on lower-end phones.
+
+
+Progressive enhancement
+
+- Treat every new "delight" feature as a layer over the existing Family/Region filters, not a replacement — if the SVG map fails to load, the dropdowns should still work. This keeps regression risk to your currently-working site low.
+- Respect prefers-reduced-motion for the tilt/roll/cheese-cut animations.
+
+
+Accessibility
+
+- The map and matrix are hover/drag-first by design — give them a keyboard-and-screen-reader equivalent (an accessible native <select> fallback under the map, an ARIA live region announcing the filtered count).
+- If you build the command-palette search, it needs proper focus trapping and role="dialog".
+
+
+Performance
+
+- Lazy-load the Wikimedia carousel images with loading="lazy" + IntersectionObserver — you already have this need at 19/72 cheeses, and it'll matter more as coverage grows.
+- Run the map SVG through SVGO and keep it low-poly; any audio should be heavily compressed or synthesized via Web Audio API rather than shipped as files, so you don't reopen the size-limit problem.
+
+
+Persistence (Passport, board builder)
+
+- Namespace and version localStorage keys (cheeseAtlas.passport.v1) with a small migration function, and wrap every read/write in try/catch — Safari private mode and quota errors should degrade the feature quietly, not throw.
+
+
+Testing
+
+- This is squarely your territory: Playwright E2E smoke tests for the interactive flows — matrix filter updates the grid, map hover highlights the right country, passport survives a reload, compare mode renders the right cards. It's also the most concrete way to close the Playwright gap from your Mysa JD analysis, on a project you actually own.
+- Unit tests for the pure data-transform functions — matrix filter logic, Twin similarity scoring, the date-seeded "cheese of the day" picker — these are the highest-value spots to cover since bugs there are silent (wrong cheese shown) rather than crashy.
+- Playwright's screenshot comparison is worth using for the card hover-tilt and modal cheese-cut transition specifically, since CSS animation regressions are easy to introduce silently during refactors.
+
+
+Deployment discipline
+
+- Since deploy_to_vercel is push-only with no read-back, run your size-check script and a local build preview before every push — you're otherwise only finding out about dropped files after the fact. Preview deployments per feature branch would let you review Map, Matrix, and Passport independently before merging.
