@@ -240,4 +240,7 @@
   if (window.CheeseMatrix && window.TCA_CONFIG && window.TCA_CONFIG.features.matrix) {
     CheeseMatrix.init();
   }
+  if (window.CheeseStoryWheel && window.TCA_CONFIG && window.TCA_CONFIG.features.storyWheel) {
+    CheeseStoryWheel.init();
+  }
 })();

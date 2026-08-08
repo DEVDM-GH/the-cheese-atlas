@@ -116,6 +116,26 @@ h1.title em{
   color: var(--curd-dim);
 }
 
+.story-wheel-trigger{
+  margin-top: 28px;
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--wax-gold);
+  border: 1px solid var(--wax-gold);
+  border-radius: 999px;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+.story-wheel-trigger:hover,
+.story-wheel-trigger:focus-visible{
+  background: var(--wax-gold);
+  color: var(--cave-deep);
+  outline: none;
+}
+
 /* ---------------- Controls (ledger bar) ---------------- */
 .controls{
   position: sticky;
@@ -521,6 +541,113 @@ h1.title em{
   z-index: 5;
 }
 .modal-close:hover{ background: var(--cave); color:var(--curd); }
+
+/* Spotlight variant — typography-first story wheel */
+.modal--spotlight{
+  max-width: 760px;
+  background: var(--cave-deep);
+  color: var(--curd);
+  border: 1px solid var(--line);
+}
+.modal--spotlight .modal-close{
+  background: transparent;
+  color: var(--curd);
+  border-color: var(--line);
+}
+.modal--spotlight .modal-close:hover{
+  background: var(--wax-gold);
+  color: var(--cave-deep);
+}
+.spotlight{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 28px;
+  align-items:stretch;
+}
+.spotlight-copy{
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.spotlight-kicker{
+  font-family:'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wax-gold);
+  margin: 0 0 10px;
+}
+.spotlight-name{
+  font-family:'Big Shoulders Display', sans-serif;
+  font-weight:900;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 0.95;
+  margin: 0 0 18px;
+  color: var(--curd);
+}
+.spotlight-quote{
+  margin: 0;
+  font-family:'Source Serif 4', Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--curd-dim);
+}
+.spotlight-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+.spotlight-reroll,
+.spotlight-detail{
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.spotlight-reroll{
+  background: var(--wax-gold);
+  color: var(--cave-deep);
+  border: 1px solid var(--wax-gold);
+}
+.spotlight-detail{
+  background: transparent;
+  color: var(--curd);
+  border: 1px solid var(--line);
+}
+.spotlight-detail:hover,
+.spotlight-detail:focus-visible{
+  border-color: var(--wax-gold);
+  color: var(--wax-gold);
+  outline: none;
+}
+.spotlight-photo{
+  flex: 0 1 260px;
+  margin: 0;
+  min-width: 0;
+}
+.spotlight-photo img{
+  display:block;
+  width:100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.spotlight-credit{
+  margin-top: 8px;
+  font-family:'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(246,237,216,0.45);
+}
+@media (max-width: 640px){
+  .spotlight{ flex-direction: column; }
+  .spotlight-photo{ flex-basis: auto; order: 2; }
+  .spotlight-copy{ order: 1; }
+}
 
 /* Decorative cheese-wire sweep — never load-bearing for modal visibility */
 .cheese-wire{
