@@ -1,3 +1,16 @@
+# Historical — superseded coding practices
+
+**Status:** historical. The standing architecture and coding-practice reference is now [`docs/architecture-design.md`](../architecture-design.md). Keep this file for provenance; do not treat it as current guidance.
+
+**Retired in particular (see architecture-design.md and Phase 1 plan §9.1):**
+
+- Pre-deploy per-file size checks against a Vercel “ceiling” — that limit was a payload constraint of the old in-chat `deploy_to_vercel` tool, not the git-based Vercel pipeline. `npm run check` validates cheese record integrity only.
+- Manual preview workarounds tied to that silent-drop failure mode.
+
+The notes below are the original brainstorm and may disagree with shipped decisions (field names, Matrix interaction model, Story Wheel pool, etc.). Prefer `architecture-design.md` and the phase implementation plans.
+
+---
+
 Data & content architecture
 
 - Keep the chunking discipline that already saved you once — one JSON/JS file per country/family, and add a small pre-deploy script that checks file sizes against Vercel's per-file ceiling so a chunk never silently gets dropped again.
