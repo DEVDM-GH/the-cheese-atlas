@@ -2,7 +2,7 @@
   "use strict";
 
   var features = {
-    matrix: true,
+    matrix: false,
     cheeseWire: true,
     storyWheel: true
   };
