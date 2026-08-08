@@ -35,12 +35,6 @@
   var FAMILY_ORDER = ["fresh","soft-ripened","washed-rind","semi-soft","semi-hard","hard","blue","pasta-filata","whey-other"];
   var REGION_ORDER = ["Europe","Americas","Middle East & Africa","Asia & Caucasus"];
 
-  var state = {
-    query: "",
-    family: "all",
-    region: "all"
-  };
-
   var grid = document.getElementById("grid");
   var resultCount = document.getElementById("resultCount");
   var searchInput = document.getElementById("searchInput");
@@ -74,27 +68,17 @@
     btn.dataset.value = value;
     btn.setAttribute("aria-pressed", value === "all" ? "true" : "false");
     btn.addEventListener("click", function(){
-      state[key] = value;
+      var patch = {};
+      patch[key] = value;
+      CheeseStore.set(patch);
       var siblings = container_for(key).querySelectorAll(".chip");
       siblings.forEach(function(s){ s.setAttribute("aria-pressed", s.dataset.value === value ? "true" : "false"); });
-      render();
     });
     return btn;
   }
 
   function container_for(key){
     return key === "family" ? familyChips : regionChips;
-  }
-
-  function matches(cheese){
-    var q = state.query.trim().toLowerCase();
-    if (state.family !== "all" && cheese.family !== state.family) return false;
-    if (state.region !== "all" && cheese.region !== state.region) return false;
-    if (!q) return true;
-    var haystack = [
-      cheese.name, cheese.country, cheese.origin, cheese.milk
-    ].join(" ").toLowerCase();
-    return haystack.indexOf(q) !== -1;
   }
 
   function cardTeaser(cheese){
@@ -122,7 +106,7 @@
   }
 
   function render(){
-    var filtered = CHEESES.filter(matches);
+    var filtered = CheeseStore.selectVisible(CHEESES);
     grid.innerHTML = "";
     if (filtered.length === 0){
       var empty = document.createElement("div");
@@ -213,9 +197,10 @@
   });
 
   searchInput.addEventListener("input", function(){
-    state.query = searchInput.value;
-    render();
+    CheeseStore.set({ query: searchInput.value });
   });
+
+  CheeseStore.subscribe(function(){ render(); });
 
   buildChips(familyChips, FAMILY_ORDER, function(f){ return FAMILY_LABELS[f]; }, "family");
   buildChips(regionChips, REGION_ORDER, function(r){ return r; }, "region");
