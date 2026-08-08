@@ -190,6 +190,190 @@ h1.title em{
   font-weight:700;
 }
 
+/* ---------------- Flavor & Texture matrix ---------------- */
+.matrix-section{
+  padding: 18px 0 8px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(28,24,20,0.55), rgba(28,24,20,0.15));
+}
+.matrix-toggle{
+  display:none;
+  width:100%;
+  margin-bottom: 12px;
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--cave-deep);
+  color: var(--curd);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+.matrix-toggle:focus-visible{
+  outline: 2px solid var(--wax-gold);
+  outline-offset: 2px;
+}
+.matrix-panel{ display:block; }
+.matrix-head{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 14px 24px;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom: 12px;
+}
+.matrix-title{
+  font-family:'Big Shoulders Display', sans-serif;
+  font-weight:800;
+  text-transform:uppercase;
+  font-size: 1.55rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 4px;
+  color: var(--curd);
+}
+.matrix-sub{
+  margin:0;
+  color: var(--curd-dim);
+  font-size: 0.95rem;
+  max-width: 36ch;
+}
+.matrix-tools{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  flex-wrap:wrap;
+}
+.matrix-live-count{
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--wax-gold);
+  min-height: 1.2em;
+}
+.matrix-clear{
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--curd);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.matrix-clear:disabled{
+  opacity: 0.4;
+  cursor: default;
+}
+.matrix-clear:not(:disabled):hover{
+  border-color: var(--wax-gold);
+  color: var(--wax-gold);
+}
+.matrix-landmark-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.matrix-landmark-btn{
+  font-family:'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--curd-dim);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.matrix-landmark-btn:hover,
+.matrix-landmark-btn:focus-visible{
+  border-color: var(--wax-gold);
+  color: var(--curd);
+  outline: none;
+}
+.matrix-plot{
+  position: relative;
+  touch-action: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(214,161,56,0.08), transparent 55%),
+    var(--cave-deep);
+  overflow: hidden;
+  min-height: 280px;
+}
+.matrix-svg{
+  display:block;
+  width:100%;
+  height: 320px;
+  cursor: crosshair;
+}
+.matrix-axis-line{
+  stroke: rgba(246,237,216,0.22);
+  stroke-width: 1;
+}
+.matrix-axis-label{
+  fill: rgba(246,237,216,0.55);
+  font-family:'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.matrix-landmark-hint{
+  fill: rgba(246,237,216,0.28);
+  font-family:'Space Mono', monospace;
+  font-size: 10px;
+  pointer-events: none;
+}
+.matrix-boundary{
+  fill: rgba(214,161,56,0.10);
+  stroke: rgba(214,161,56,0.55);
+  stroke-width: 1.25;
+  pointer-events: none;
+}
+.matrix-dot{
+  fill: var(--curd-dim);
+  stroke: rgba(28,24,20,0.35);
+  stroke-width: 1;
+  pointer-events: none;
+  transition: opacity var(--motion-fast) var(--motion-ease), fill var(--motion-fast) var(--motion-ease);
+}
+.matrix-dot.is-dimmed{ opacity: 0.22; }
+.matrix-dot.is-selected{ fill: var(--wax-gold); opacity: 1; }
+.matrix-crosshair{
+  transform-origin: 0 0;
+  outline: none;
+}
+.matrix-crosshair.is-animating{
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+.matrix-crosshair-arm{
+  stroke: var(--wax-gold);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.matrix-crosshair-hub{
+  fill: var(--wax-gold);
+  stroke: var(--cave-deep);
+  stroke-width: 1;
+  pointer-events: none;
+}
+.matrix-crosshair:focus-visible .matrix-crosshair-hub{
+  stroke: var(--curd);
+  stroke-width: 2;
+}
+.matrix-section.is-active .matrix-title{ color: var(--wax-gold); }
+
+@media (max-width: 720px){
+  .matrix-toggle{ display:block; }
+  .matrix-section.is-collapsed .matrix-panel{ display:none; }
+  .matrix-svg{ height: 260px; }
+  .matrix-plot{ min-height: 220px; }
+}
+
 /* ---------------- Grid ---------------- */
 .grid-section{ padding: 34px 0 90px; }
 .grid{

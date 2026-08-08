@@ -229,4 +229,15 @@
 
   buildGrid();
   render();
+
+  window.CheeseAtlas = {
+    openDetail: openModal,
+    escapeHtml: escapeHtml,
+    flagsFor: flagsFor,
+    FAMILY_LABELS: FAMILY_LABELS
+  };
+
+  if (window.CheeseMatrix && window.TCA_CONFIG && window.TCA_CONFIG.features.matrix) {
+    CheeseMatrix.init();
+  }
 })();
