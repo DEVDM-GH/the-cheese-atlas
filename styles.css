@@ -199,6 +199,11 @@ h1.title em{
   padding: 70px 20px;
   color: var(--curd-dim);
   font-family:'Space Mono', monospace;
+  grid-column: 1 / -1;
+}
+.empty-state.is-hidden,
+.card.is-hidden{
+  display: none;
 }
 
 /* ---------------- Card ---------------- */

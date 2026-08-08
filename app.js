@@ -37,6 +37,7 @@
 
   var grid = document.getElementById("grid");
   var resultCount = document.getElementById("resultCount");
+  var filterLive = document.getElementById("filterLive");
   var searchInput = document.getElementById("searchInput");
   var familyChips = document.getElementById("familyChips");
   var regionChips = document.getElementById("regionChips");
@@ -45,6 +46,12 @@
   var modalCloseBtn = document.getElementById("modalCloseBtn");
   var totalCountEl = document.getElementById("totalCount");
   var countryCountEl = document.getElementById("countryCount");
+
+  var cardNodes = new Map();
+  var emptyState = null;
+  var announceTimer = null;
+  var hasRenderedOnce = false;
+  var ANNOUNCE_MS = 400;
 
   function escapeHtml(str){
     return String(str).replace(/[&<>"']/g, function(ch){
@@ -105,20 +112,46 @@
     return card;
   }
 
+  function buildGrid(){
+    var frag = document.createDocumentFragment();
+    emptyState = document.createElement("div");
+    emptyState.className = "empty-state is-hidden";
+    emptyState.textContent = "No cheese matches that search. Try a different region, family, or word.";
+    frag.appendChild(emptyState);
+
+    CHEESES.forEach(function(cheese){
+      var card = renderCard(cheese);
+      cardNodes.set(cheese.id, card);
+      frag.appendChild(card);
+    });
+    grid.appendChild(frag);
+  }
+
+  function scheduleAnnounce(count){
+    // Skip the initial paint so screen readers are not greeted with a count.
+    // Debounce later updates so a matrix drag does not spam polite announcements.
+    if (!hasRenderedOnce) {
+      hasRenderedOnce = true;
+      return;
+    }
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(function(){
+      filterLive.textContent = count + (count === 1 ? " cheese" : " cheeses");
+    }, ANNOUNCE_MS);
+  }
+
   function render(){
     var filtered = CheeseStore.selectVisible(CHEESES);
-    grid.innerHTML = "";
-    if (filtered.length === 0){
-      var empty = document.createElement("div");
-      empty.className = "empty-state";
-      empty.textContent = "No cheese matches that search. Try a different region, family, or word.";
-      grid.appendChild(empty);
-    } else {
-      var frag = document.createDocumentFragment();
-      filtered.forEach(function(cheese){ frag.appendChild(renderCard(cheese)); });
-      grid.appendChild(frag);
-    }
+    var visibleIds = {};
+    filtered.forEach(function(cheese){ visibleIds[cheese.id] = true; });
+
+    cardNodes.forEach(function(card, id){
+      card.classList.toggle("is-hidden", !visibleIds[id]);
+    });
+    emptyState.classList.toggle("is-hidden", filtered.length !== 0);
+
     resultCount.textContent = filtered.length + (filtered.length === 1 ? " cheese" : " cheeses");
+    scheduleAnnounce(filtered.length);
   }
 
   function openModal(cheese){
@@ -209,5 +242,6 @@
   var uniqueCountries = new Set(CHEESES.map(function(c){ return c.country; }));
   countryCountEl.textContent = uniqueCountries.size;
 
+  buildGrid();
   render();
 })();
