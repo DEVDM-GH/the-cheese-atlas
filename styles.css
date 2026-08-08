@@ -20,6 +20,9 @@
   --line-dark:   rgba(28,24,20,0.12);
   --shadow: 0 18px 40px -18px rgba(0,0,0,0.45);
   --radius: 14px;
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 *, *::before, *::after{ box-sizing:border-box; }
@@ -334,6 +337,42 @@ h1.title em{
   z-index: 5;
 }
 .modal-close:hover{ background: var(--cave); color:var(--curd); }
+
+/* Decorative cheese-wire sweep — never load-bearing for modal visibility */
+.cheese-wire{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:4;
+  overflow:hidden;
+  border-radius:inherit;
+}
+.cheese-wire svg{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.cheese-wire-group{
+  transform: translateX(-12%);
+}
+.cheese-wire.is-running .cheese-wire-group{
+  animation: cheese-wire-sweep calc(var(--motion-base) * 2) var(--motion-ease) forwards;
+}
+.cheese-wire-trail{
+  stroke: rgba(214, 161, 56, 0.28);
+  stroke-width: 2.8;
+  stroke-linecap: round;
+}
+.cheese-wire-blade{
+  stroke: rgba(42, 38, 34, 0.55);
+  stroke-width: 0.55;
+  stroke-linecap: round;
+}
+@keyframes cheese-wire-sweep{
+  from{ transform: translateX(-12%); }
+  to{ transform: translateX(112%); }
+}
+
 .modal-head{ display:flex; gap:20px; align-items:center; margin-bottom: 6px; padding-right: 44px; }
 .modal-wheel{ width:72px; height:72px; border-radius:50%; flex-shrink:0; box-shadow: inset 0 0 0 3px rgba(0,0,0,0.08); }
 .modal-name{

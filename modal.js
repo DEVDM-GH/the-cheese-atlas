@@ -55,6 +55,56 @@ window.Modal = (function(){
     }
   }
 
+  function cheeseWireAllowed(){
+    try {
+      if (!(window.TCA_CONFIG && window.TCA_CONFIG.features && window.TCA_CONFIG.features.cheeseWire)) {
+        return false;
+      }
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function clearCheeseWire(){
+    if (!panel) return;
+    var existing = panel.querySelector(".cheese-wire");
+    if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+  }
+
+  function playCheeseWire(){
+    if (!cheeseWireAllowed() || !panel) return;
+    try {
+      clearCheeseWire();
+
+      var wrap = document.createElement("div");
+      wrap.className = "cheese-wire";
+      wrap.setAttribute("aria-hidden", "true");
+      wrap.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">' +
+          '<g class="cheese-wire-group">' +
+            '<line class="cheese-wire-trail" x1="0" y1="0" x2="0" y2="100"></line>' +
+            '<line class="cheese-wire-blade" x1="0" y1="0" x2="0" y2="100"></line>' +
+          '</g>' +
+        '</svg>';
+      panel.appendChild(wrap);
+
+      // Reflow so the starting transform is applied before the run class.
+      void wrap.offsetWidth;
+      wrap.classList.add("is-running");
+
+      wrap.addEventListener("animationend", function(){
+        if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      });
+    } catch (e) {
+      console.error("Cheese wire failed; modal remains usable.", e);
+      clearCheeseWire();
+    }
+  }
+
   function open(opts){
     if (!overlay || !panel || !body || !closeBtn) return;
     opts = opts || {};
@@ -75,6 +125,7 @@ window.Modal = (function(){
     document.body.style.overflow = "hidden";
     isOpen = true;
 
+    playCheeseWire();
     closeBtn.focus();
 
     if (typeof opts.onOpen === "function") opts.onOpen();
@@ -83,6 +134,7 @@ window.Modal = (function(){
   function close(){
     if (!isOpen || !overlay) return;
     isOpen = false;
+    clearCheeseWire();
     overlay.hidden = true;
     document.body.style.overflow = "";
     body.innerHTML = "";
