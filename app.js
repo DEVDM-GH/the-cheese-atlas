@@ -35,22 +35,20 @@
   var FAMILY_ORDER = ["fresh","soft-ripened","washed-rind","semi-soft","semi-hard","hard","blue","pasta-filata","whey-other"];
   var REGION_ORDER = ["Europe","Americas","Middle East & Africa","Asia & Caucasus"];
 
-  var state = {
-    query: "",
-    family: "all",
-    region: "all"
-  };
-
   var grid = document.getElementById("grid");
   var resultCount = document.getElementById("resultCount");
+  var filterLive = document.getElementById("filterLive");
   var searchInput = document.getElementById("searchInput");
   var familyChips = document.getElementById("familyChips");
   var regionChips = document.getElementById("regionChips");
-  var modalOverlay = document.getElementById("modalOverlay");
-  var modalBody = document.getElementById("modalBody");
-  var modalCloseBtn = document.getElementById("modalCloseBtn");
   var totalCountEl = document.getElementById("totalCount");
   var countryCountEl = document.getElementById("countryCount");
+
+  var cardNodes = new Map();
+  var emptyState = null;
+  var announceTimer = null;
+  var hasRenderedOnce = false;
+  var ANNOUNCE_MS = 400;
 
   function escapeHtml(str){
     return String(str).replace(/[&<>"']/g, function(ch){
@@ -74,27 +72,17 @@
     btn.dataset.value = value;
     btn.setAttribute("aria-pressed", value === "all" ? "true" : "false");
     btn.addEventListener("click", function(){
-      state[key] = value;
+      var patch = {};
+      patch[key] = value;
+      CheeseStore.set(patch);
       var siblings = container_for(key).querySelectorAll(".chip");
       siblings.forEach(function(s){ s.setAttribute("aria-pressed", s.dataset.value === value ? "true" : "false"); });
-      render();
     });
     return btn;
   }
 
   function container_for(key){
     return key === "family" ? familyChips : regionChips;
-  }
-
-  function matches(cheese){
-    var q = state.query.trim().toLowerCase();
-    if (state.family !== "all" && cheese.family !== state.family) return false;
-    if (state.region !== "all" && cheese.region !== state.region) return false;
-    if (!q) return true;
-    var haystack = [
-      cheese.name, cheese.country, cheese.origin, cheese.milk
-    ].join(" ").toLowerCase();
-    return haystack.indexOf(q) !== -1;
   }
 
   function cardTeaser(cheese){
@@ -121,51 +109,78 @@
     return card;
   }
 
-  function render(){
-    var filtered = CHEESES.filter(matches);
-    grid.innerHTML = "";
-    if (filtered.length === 0){
-      var empty = document.createElement("div");
-      empty.className = "empty-state";
-      empty.textContent = "No cheese matches that search. Try a different region, family, or word.";
-      grid.appendChild(empty);
-    } else {
-      var frag = document.createDocumentFragment();
-      filtered.forEach(function(cheese){ frag.appendChild(renderCard(cheese)); });
-      grid.appendChild(frag);
+  function buildGrid(){
+    var frag = document.createDocumentFragment();
+    emptyState = document.createElement("div");
+    emptyState.className = "empty-state is-hidden";
+    emptyState.textContent = "No cheese matches that search. Try a different region, family, or word.";
+    frag.appendChild(emptyState);
+
+    CHEESES.forEach(function(cheese){
+      var card = renderCard(cheese);
+      cardNodes.set(cheese.id, card);
+      frag.appendChild(card);
+    });
+    grid.appendChild(frag);
+  }
+
+  function scheduleAnnounce(count){
+    // Skip the initial paint so screen readers are not greeted with a count.
+    // Debounce later updates so a matrix drag does not spam polite announcements.
+    if (!hasRenderedOnce) {
+      hasRenderedOnce = true;
+      return;
     }
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(function(){
+      filterLive.textContent = count + (count === 1 ? " cheese" : " cheeses");
+    }, ANNOUNCE_MS);
+  }
+
+  function render(){
+    var filtered = CheeseStore.selectVisible(CHEESES);
+    var visibleIds = {};
+    filtered.forEach(function(cheese){ visibleIds[cheese.id] = true; });
+
+    cardNodes.forEach(function(card, id){
+      card.classList.toggle("is-hidden", !visibleIds[id]);
+    });
+    emptyState.classList.toggle("is-hidden", filtered.length !== 0);
+
     resultCount.textContent = filtered.length + (filtered.length === 1 ? " cheese" : " cheeses");
+    scheduleAnnounce(filtered.length);
   }
 
   function openModal(cheese){
-    modalBody.innerHTML =
-      photoSection(cheese) +
-      '<div class="modal-head">' +
-        '<div class="modal-wheel wheel ' + cheese.family + '" aria-hidden="true"></div>' +
-        '<div>' +
-          '<h2 class="modal-name">' + escapeHtml(cheese.name) + '</h2>' +
-          '<div class="modal-meta">' + (flagsFor(cheese.country) ? flagsFor(cheese.country) + ' \u2022 ' : '') + escapeHtml(cheese.milk) + ' milk \u2022 ' + escapeHtml(FAMILY_LABELS[cheese.family] || cheese.family) + ' \u2022 ' + escapeHtml(cheese.region) + '</div>' +
+    Modal.open({
+      html:
+        photoSection(cheese) +
+        '<div class="modal-head">' +
+          '<div class="modal-wheel wheel ' + cheese.family + '" aria-hidden="true"></div>' +
+          '<div>' +
+            '<h2 class="modal-name">' + escapeHtml(cheese.name) + '</h2>' +
+            '<div class="modal-meta">' + (flagsFor(cheese.country) ? flagsFor(cheese.country) + ' \u2022 ' : '') + escapeHtml(cheese.milk) + ' milk \u2022 ' + escapeHtml(FAMILY_LABELS[cheese.family] || cheese.family) + ' \u2022 ' + escapeHtml(cheese.region) + '</div>' +
+          '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="modal-body">' +
-        field("Origin", cheese.origin) +
-        field("Texture", cheese.texture) +
-        field("History", cheese.history) +
-        field("Where it's prevalent", cheese.prevalence) +
-        field("How it's used", cheese.usage) +
-        '<div class="fact-box"><div class="label">Curd Nerd fact</div><div class="value">' + escapeHtml(cheese.fact) + '</div></div>' +
-      '</div>';
-    modalOverlay.hidden = false;
-    document.body.style.overflow = "hidden";
-    modalCloseBtn.focus();
-    wireCarousel();
+        '<div class="modal-body">' +
+          field("Origin", cheese.origin) +
+          field("Texture", cheese.texture) +
+          field("History", cheese.history) +
+          field("Where it's prevalent", cheese.prevalence) +
+          field("How it's used", cheese.usage) +
+          '<div class="fact-box"><div class="label">Curd Nerd fact</div><div class="value">' + escapeHtml(cheese.fact) + '</div></div>' +
+        '</div>',
+      label: "Cheese detail",
+      variant: "detail",
+      onOpen: wireCarousel
+    });
   }
 
   function photoSection(cheese){
     if (!cheese.images || !cheese.images.length) return "";
     var slides = cheese.images.map(function(img, i){
       return '<div class="carousel-slide" data-index="' + i + '" style="' + (i === 0 ? '' : 'display:none;') + '">' +
-        '<img src="' + escapeHtml(img.url) + '" alt="' + escapeHtml(img.alt || cheese.name) + '" loading="lazy">' +
+        '<img src="' + escapeHtml(img.url) + '" alt="' + escapeHtml(img.alt || cheese.name) + '" loading="lazy" crossorigin="anonymous">' +
         (img.credit ? '<div class="carousel-credit">' + escapeHtml(img.credit) + '</div>' : '') +
         '</div>';
     }).join("");
@@ -199,23 +214,11 @@
     return '<div class="field"><div class="label">' + escapeHtml(label) + '</div><div class="value">' + escapeHtml(value) + '</div></div>';
   }
 
-  function closeModal(){
-    modalOverlay.hidden = true;
-    document.body.style.overflow = "";
-  }
-
-  modalCloseBtn.addEventListener("click", closeModal);
-  modalOverlay.addEventListener("click", function(e){
-    if (e.target === modalOverlay) closeModal();
-  });
-  document.addEventListener("keydown", function(e){
-    if (e.key === "Escape" && !modalOverlay.hidden) closeModal();
-  });
-
   searchInput.addEventListener("input", function(){
-    state.query = searchInput.value;
-    render();
+    CheeseStore.set({ query: searchInput.value });
   });
+
+  CheeseStore.subscribe(function(){ render(); });
 
   buildChips(familyChips, FAMILY_ORDER, function(f){ return FAMILY_LABELS[f]; }, "family");
   buildChips(regionChips, REGION_ORDER, function(r){ return r; }, "region");
@@ -224,5 +227,20 @@
   var uniqueCountries = new Set(CHEESES.map(function(c){ return c.country; }));
   countryCountEl.textContent = uniqueCountries.size;
 
+  buildGrid();
   render();
+
+  window.CheeseAtlas = {
+    openDetail: openModal,
+    escapeHtml: escapeHtml,
+    flagsFor: flagsFor,
+    FAMILY_LABELS: FAMILY_LABELS
+  };
+
+  if (window.CheeseMatrix && window.TCA_CONFIG && window.TCA_CONFIG.features.matrix) {
+    CheeseMatrix.init();
+  }
+  if (window.CheeseStoryWheel && window.TCA_CONFIG && window.TCA_CONFIG.features.storyWheel) {
+    CheeseStoryWheel.init();
+  }
 })();

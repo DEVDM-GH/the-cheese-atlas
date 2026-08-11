@@ -1,0 +1,600 @@
+{
+  "meta": {
+    "title": "The Cheese Atlas — Flavor & Texture Matrix scores",
+    "totalCheeses": 72,
+    "source": "docs/TCA2/MATRIX-TABLE.md (verified row-by-row against TCA-FULL-DATA-WITH-MATRIX-DATA.md, zero discrepancies; that file has since been deleted as a redundant duplicate of the dataset)",
+    "axisScale": {
+      "mildStinky": "1 = very mild/delicate, 10 = extremely pungent",
+      "softHard": "1 = soft/spoonable, 10 = hard/granular"
+    },
+    "groups": [
+      "Italy (14)",
+      "France (13)",
+      "Switzerland / Alpine (5)",
+      "British Isles (7)",
+      "Netherlands / Iberia / Balkans / Med (9)",
+      "Germany / Nordics / Eastern Europe (8)",
+      "Middle East (3)",
+      "Americas (10)",
+      "Asia & Caucasus (3)"
+    ]
+  },
+  "cheeses": [
+    {
+      "id": "parmigiano-reggiano",
+      "name": "Parmigiano Reggiano",
+      "group": "Italy (14)",
+      "mildStinky": 4,
+      "softHard": 9,
+      "why": "granular hard-aged; sharp/salty, not aromatic"
+    },
+    {
+      "id": "grana-padano",
+      "name": "Grana Padano",
+      "group": "Italy (14)",
+      "mildStinky": 3,
+      "softHard": 8,
+      "why": "milder, slightly softer cousin of Parm"
+    },
+    {
+      "id": "pecorino-romano",
+      "name": "Pecorino Romano",
+      "group": "Italy (14)",
+      "mildStinky": 5,
+      "softHard": 8,
+      "why": "hard, dense, notably salty/sharp (sheep)"
+    },
+    {
+      "id": "gorgonzola",
+      "name": "Gorgonzola",
+      "group": "Italy (14)",
+      "mildStinky": 7,
+      "softHard": 4,
+      "why": "creamy-crumbly blue; dolce softer, piccante firmer"
+    },
+    {
+      "id": "mozzarella",
+      "name": "Mozzarella",
+      "group": "Italy (14)",
+      "mildStinky": 1,
+      "softHard": 2,
+      "why": "soft, springy, mild and milky"
+    },
+    {
+      "id": "burrata",
+      "name": "Burrata",
+      "group": "Italy (14)",
+      "mildStinky": 1,
+      "softHard": 2,
+      "why": "mild shell, oozy soft center"
+    },
+    {
+      "id": "ricotta",
+      "name": "Ricotta",
+      "group": "Italy (14)",
+      "mildStinky": 1,
+      "softHard": 1,
+      "why": "soft, grainy whey cheese"
+    },
+    {
+      "id": "mascarpone",
+      "name": "Mascarpone",
+      "group": "Italy (14)",
+      "mildStinky": 1,
+      "softHard": 1,
+      "why": "ultra-smooth cream, delicate"
+    },
+    {
+      "id": "provolone",
+      "name": "Provolone",
+      "group": "Italy (14)",
+      "mildStinky": 4,
+      "softHard": 6,
+      "why": "dolce (mild) to piccante (sharp) range"
+    },
+    {
+      "id": "taleggio",
+      "name": "Taleggio",
+      "group": "Italy (14)",
+      "mildStinky": 6,
+      "softHard": 3,
+      "why": "site notes it \"smells stronger than it tastes\""
+    },
+    {
+      "id": "asiago",
+      "name": "Asiago",
+      "group": "Italy (14)",
+      "mildStinky": 3,
+      "softHard": 5,
+      "why": "semi-soft young → hard/sharp aged"
+    },
+    {
+      "id": "fontina",
+      "name": "Fontina",
+      "group": "Italy (14)",
+      "mildStinky": 2,
+      "softHard": 4,
+      "why": "semi-soft, elastic, mild nutty"
+    },
+    {
+      "id": "caciocavallo",
+      "name": "Caciocavallo",
+      "group": "Italy (14)",
+      "mildStinky": 4,
+      "softHard": 6,
+      "why": "stretchy young → hard/sharp/smoky aged"
+    },
+    {
+      "id": "casu-marzu",
+      "name": "Casu Marzu",
+      "group": "Italy (14)",
+      "mildStinky": 10,
+      "softHard": 1,
+      "why": "larvae-fermented; the extreme of the whole set"
+    },
+    {
+      "id": "brie-de-meaux",
+      "name": "Brie de Meaux",
+      "group": "France (13)",
+      "mildStinky": 5,
+      "softHard": 2,
+      "why": "bloomy, creamy; real Cranfield top-5 smelliest"
+    },
+    {
+      "id": "camembert",
+      "name": "Camembert de Normandie",
+      "group": "France (13)",
+      "mildStinky": 6,
+      "softHard": 2,
+      "why": "denser bloomy rind than Brie"
+    },
+    {
+      "id": "roquefort",
+      "name": "Roquefort",
+      "group": "France (13)",
+      "mildStinky": 8,
+      "softHard": 4,
+      "why": "salty, tangy blue; real Cranfield top-6"
+    },
+    {
+      "id": "comte",
+      "name": "Comté",
+      "group": "France (13)",
+      "mildStinky": 3,
+      "softHard": 8,
+      "why": "firm, dense, nutty-caramelized with age"
+    },
+    {
+      "id": "reblochon",
+      "name": "Reblochon",
+      "group": "France (13)",
+      "mildStinky": 4,
+      "softHard": 3,
+      "why": "washed rind, but site calls it \"mild nutty\""
+    },
+    {
+      "id": "epoisses",
+      "name": "Époisses",
+      "group": "France (13)",
+      "mildStinky": 9,
+      "softHard": 1,
+      "why": "near-liquid at ripeness; site calls it France's most pungent"
+    },
+    {
+      "id": "munster",
+      "name": "Munster",
+      "group": "France (13)",
+      "mildStinky": 8,
+      "softHard": 3,
+      "why": "real Cranfield #4 smelliest cheese"
+    },
+    {
+      "id": "cantal",
+      "name": "Cantal",
+      "group": "France (13)",
+      "mildStinky": 3,
+      "softHard": 7,
+      "why": "jeune (mild) to vieux (sharp), cheddar-like"
+    },
+    {
+      "id": "morbier",
+      "name": "Morbier",
+      "group": "France (13)",
+      "mildStinky": 3,
+      "softHard": 4,
+      "why": "semi-soft, mild, famous ash line"
+    },
+    {
+      "id": "tomme-de-savoie",
+      "name": "Tomme de Savoie",
+      "group": "France (13)",
+      "mildStinky": 3,
+      "softHard": 6,
+      "why": "semi-firm, mild, earthy"
+    },
+    {
+      "id": "chevre",
+      "name": "Chèvre (Crottin de Chavignol)",
+      "group": "France (13)",
+      "mildStinky": 4,
+      "softHard": 2,
+      "why": "fresh & soft young; firms/tangs with age"
+    },
+    {
+      "id": "vieux-boulogne",
+      "name": "Vieux Boulogne",
+      "group": "France (13)",
+      "mildStinky": 10,
+      "softHard": 2,
+      "why": "the real, scientifically-crowned #1 smelliest cheese"
+    },
+    {
+      "id": "neufchatel",
+      "name": "Neufchâtel",
+      "group": "France (13)",
+      "mildStinky": 4,
+      "softHard": 2,
+      "why": "soft young, denser/more pungent aged"
+    },
+    {
+      "id": "gruyere",
+      "name": "Gruyère",
+      "group": "Switzerland / Alpine (5)",
+      "mildStinky": 3,
+      "softHard": 8,
+      "why": "firm, dense, nutty-sweet"
+    },
+    {
+      "id": "emmental",
+      "name": "Emmental",
+      "group": "Switzerland / Alpine (5)",
+      "mildStinky": 2,
+      "softHard": 7,
+      "why": "firm, mild, the classic \"Swiss cheese\""
+    },
+    {
+      "id": "appenzeller",
+      "name": "Appenzeller",
+      "group": "Switzerland / Alpine (5)",
+      "mildStinky": 6,
+      "softHard": 6,
+      "why": "site: \"distinctly pungent, spicy\" washed rind"
+    },
+    {
+      "id": "vacherin-mont-dor",
+      "name": "Vacherin Mont d'Or",
+      "group": "Switzerland / Alpine (5)",
+      "mildStinky": 5,
+      "softHard": 1,
+      "why": "spoonably soft, resinous spruce-bark aroma"
+    },
+    {
+      "id": "raclette",
+      "name": "Raclette",
+      "group": "Switzerland / Alpine (5)",
+      "mildStinky": 3,
+      "softHard": 5,
+      "why": "semi-firm, mild, melts silky"
+    },
+    {
+      "id": "cheddar",
+      "name": "Cheddar",
+      "group": "British Isles (7)",
+      "mildStinky": 3,
+      "softHard": 8,
+      "why": "mild young → sharp aged"
+    },
+    {
+      "id": "double-gloucester",
+      "name": "Double Gloucester",
+      "group": "British Isles (7)",
+      "mildStinky": 2,
+      "softHard": 7,
+      "why": "firm, smooth, mellow nutty"
+    },
+    {
+      "id": "red-leicester",
+      "name": "Red Leicester",
+      "group": "British Isles (7)",
+      "mildStinky": 2,
+      "softHard": 7,
+      "why": "site: milder than mature cheddar"
+    },
+    {
+      "id": "wensleydale",
+      "name": "Wensleydale",
+      "group": "British Isles (7)",
+      "mildStinky": 2,
+      "softHard": 5,
+      "why": "crumbly, mild, honeyed tang"
+    },
+    {
+      "id": "caerphilly",
+      "name": "Caerphilly",
+      "group": "British Isles (7)",
+      "mildStinky": 2,
+      "softHard": 4,
+      "why": "moist, crumbly, mild acidic tang"
+    },
+    {
+      "id": "stilton",
+      "name": "Stilton",
+      "group": "British Isles (7)",
+      "mildStinky": 7,
+      "softHard": 4,
+      "why": "rich, crumbly, sharp tangy blue"
+    },
+    {
+      "id": "stinking-bishop",
+      "name": "Stinking Bishop",
+      "group": "British Isles (7)",
+      "mildStinky": 9,
+      "softHard": 2,
+      "why": "perry-washed; the Wallace & Gromit cheese"
+    },
+    {
+      "id": "gouda",
+      "name": "Gouda",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 2,
+      "softHard": 5,
+      "why": "young smooth/mild → aged hard/savory"
+    },
+    {
+      "id": "edam",
+      "name": "Edam",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 2,
+      "softHard": 6,
+      "why": "firm, mild, slightly rubbery"
+    },
+    {
+      "id": "manchego",
+      "name": "Manchego",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 3,
+      "softHard": 7,
+      "why": "buttery young → sharp/crumbly aged"
+    },
+    {
+      "id": "cabrales",
+      "name": "Cabrales",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 9,
+      "softHard": 4,
+      "why": "site: \"intensely pungent, spicy\" cave-aged blue"
+    },
+    {
+      "id": "idiazabal",
+      "name": "Idiazábal",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 5,
+      "softHard": 8,
+      "why": "hard, dense, wood-smoked"
+    },
+    {
+      "id": "feta",
+      "name": "Feta",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 4,
+      "softHard": 3,
+      "why": "firm, crumbly, brine-tangy"
+    },
+    {
+      "id": "halloumi",
+      "name": "Halloumi",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 2,
+      "softHard": 6,
+      "why": "firm, rubbery, squeaky, doesn't melt"
+    },
+    {
+      "id": "graviera",
+      "name": "Graviera",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 2,
+      "softHard": 7,
+      "why": "firm, nutty, Gruyère-style"
+    },
+    {
+      "id": "limburger",
+      "name": "Limburger",
+      "group": "Netherlands / Iberia / Balkans / Med (9)",
+      "mildStinky": 8,
+      "softHard": 2,
+      "why": "same rind bacteria as Époisses/Vieux Boulogne"
+    },
+    {
+      "id": "butterkase",
+      "name": "Butterkäse",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 1,
+      "softHard": 3,
+      "why": "literally designed to be inoffensive"
+    },
+    {
+      "id": "jarlsberg",
+      "name": "Jarlsberg",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 2,
+      "softHard": 5,
+      "why": "semi-firm, mild, sweet-nutty"
+    },
+    {
+      "id": "brunost",
+      "name": "Brunost (Gjetost)",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 1,
+      "softHard": 6,
+      "why": "caramelized whey fudge; sweet, not pungent"
+    },
+    {
+      "id": "havarti",
+      "name": "Havarti",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 2,
+      "softHard": 3,
+      "why": "semi-soft, buttery, mild"
+    },
+    {
+      "id": "skyr",
+      "name": "Skyr",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 2,
+      "softHard": 2,
+      "why": "thick cultured dairy, tangy not pungent"
+    },
+    {
+      "id": "bryndza",
+      "name": "Bryndza",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 5,
+      "softHard": 2,
+      "why": "soft, salty, tangy sheep's cheese"
+    },
+    {
+      "id": "oscypek",
+      "name": "Oscypek",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 4,
+      "softHard": 6,
+      "why": "firm, rubbery, wood-smoked"
+    },
+    {
+      "id": "sirene",
+      "name": "Sirene",
+      "group": "Germany / Nordics / Eastern Europe (8)",
+      "mildStinky": 4,
+      "softHard": 3,
+      "why": "feta-like, softer and tangier"
+    },
+    {
+      "id": "akkawi",
+      "name": "Akkawi",
+      "group": "Middle East (3)",
+      "mildStinky": 2,
+      "softHard": 3,
+      "why": "semi-firm, mild, low-salt brined"
+    },
+    {
+      "id": "labneh",
+      "name": "Labneh",
+      "group": "Middle East (3)",
+      "mildStinky": 2,
+      "softHard": 1,
+      "why": "strained yogurt, thick, mild-tangy"
+    },
+    {
+      "id": "domiati",
+      "name": "Domiati",
+      "group": "Middle East (3)",
+      "mildStinky": 3,
+      "softHard": 3,
+      "why": "soft young → firmer/sharper aged"
+    },
+    {
+      "id": "monterey-jack",
+      "name": "Monterey Jack",
+      "group": "Americas (10)",
+      "mildStinky": 1,
+      "softHard": 3,
+      "why": "smooth, pale, mild, melts easily"
+    },
+    {
+      "id": "colby",
+      "name": "Colby",
+      "group": "Americas (10)",
+      "mildStinky": 2,
+      "softHard": 5,
+      "why": "softer, milder cousin of cheddar"
+    },
+    {
+      "id": "pepper-jack",
+      "name": "Pepper Jack",
+      "group": "Americas (10)",
+      "mildStinky": 2,
+      "softHard": 3,
+      "why": "mild jack base — heat isn't this axis"
+    },
+    {
+      "id": "american-cheese",
+      "name": "American Cheese",
+      "group": "Americas (10)",
+      "mildStinky": 1,
+      "softHard": 2,
+      "why": "processed, smooth, minimal aging"
+    },
+    {
+      "id": "cream-cheese",
+      "name": "Cream Cheese",
+      "group": "Americas (10)",
+      "mildStinky": 1,
+      "softHard": 1,
+      "why": "smooth, mild, tangy spread"
+    },
+    {
+      "id": "humboldt-fog",
+      "name": "Humboldt Fog",
+      "group": "Americas (10)",
+      "mildStinky": 5,
+      "softHard": 2,
+      "why": "dense center, tangy earthy goat's milk"
+    },
+    {
+      "id": "cotija",
+      "name": "Cotija",
+      "group": "Americas (10)",
+      "mildStinky": 4,
+      "softHard": 8,
+      "why": "firm, crumbly, salty \"Mexican Parmesan\""
+    },
+    {
+      "id": "oaxaca",
+      "name": "Oaxaca",
+      "group": "Americas (10)",
+      "mildStinky": 1,
+      "softHard": 2,
+      "why": "soft, stringy, mozzarella-like"
+    },
+    {
+      "id": "queso-fresco",
+      "name": "Queso Fresco",
+      "group": "Americas (10)",
+      "mildStinky": 2,
+      "softHard": 2,
+      "why": "soft, crumbly, mild, doesn't melt"
+    },
+    {
+      "id": "panela",
+      "name": "Panela",
+      "group": "Americas (10)",
+      "mildStinky": 1,
+      "softHard": 4,
+      "why": "firm, spongy, mild, grillable"
+    },
+    {
+      "id": "paneer",
+      "name": "Paneer",
+      "group": "Asia & Caucasus (3)",
+      "mildStinky": 1,
+      "softHard": 4,
+      "why": "firm, springy, mild, doesn't melt"
+    },
+    {
+      "id": "sulguni",
+      "name": "Sulguni",
+      "group": "Asia & Caucasus (3)",
+      "mildStinky": 3,
+      "softHard": 4,
+      "why": "semi-firm, stringy, brine-salty"
+    },
+    {
+      "id": "chechil",
+      "name": "Chechil",
+      "group": "Asia & Caucasus (3)",
+      "mildStinky": 3,
+      "softHard": 5,
+      "why": "fibrous, stringy, drier/chewier than string cheese"
+    }
+  ]
+}

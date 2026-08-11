@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "npx --yes serve . -l 3000",
     "start": "npx --yes serve . -l 3000",
+    "check": "node scripts/check-data.mjs",
     "screenshots": "node scripts/capture-screenshots.mjs"
   },
   "engines": {

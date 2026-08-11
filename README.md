@@ -27,7 +27,7 @@ The Atlas is a single-page illustrated catalogue: cave-dark shelves, cream cards
 
 ### 1. Hero — the atlas masthead
 
-Brand-forward title, a short field-guide pitch, and live tallies for cheeses, countries, and families.
+Brand-forward title, a short field-guide pitch, and live tallies for cheeses, countries, and families. When enabled, **Roll the Wheel** sits under the stats and opens a Story Wheel spotlight on a curated Curd Nerd fact.
 
 ![Hero section with title and stats](./docs/screenshots/01-hero.png)
 
@@ -50,9 +50,15 @@ A sticky control bar that stays with you while you scroll the shelves.
 
 ---
 
-### 3. Cheese card grid — the shelves
+### 3. Flavor & Texture matrix
 
-Each card is a cream “wheel” on the shelf: family-coded rind swatch, name, milk & country teaser, texture hook, and a family tag.
+An interactive mild→stinky / soft→hard plot between the ledger and the grid. Tap or drag the crosshair (or use corner landmarks and arrow keys) to filter by proximity. Composes with search and chips. Collapses behind **Filter by taste** on small viewports. Gated by `TCA_CONFIG.features.matrix`.
+
+---
+
+### 4. Cheese card grid — the shelves
+
+Each card is a cream “wheel” on the shelf: family-coded rind swatch, name, milk & country teaser, texture hook, and a family tag. Cards are built once; filters toggle visibility.
 
 ![Grid of cheese cards](./docs/screenshots/03-card-grid.png)
 
@@ -71,9 +77,9 @@ Family wheels are CSS-painted (not stock photos) so Fresh, Blue, Washed-Rind, an
 
 ---
 
-### 4. Detail modal — the full entry
+### 5. Detail modal — the full entry
 
-Click any card for the deep dive: photo carousel (when available), origin, texture, history, prevalence, culinary use, and a **Curd Nerd fact**.
+Click any card for the deep dive: photo carousel (when available), origin, texture, history, prevalence, culinary use, and a **Curd Nerd fact**. Opening plays an optional decorative cheese-wire sweep (additive; skipped under reduced motion or when `cheeseWire` is off). Focus is trapped in the dialog and restored to the card on close.
 
 ![Parmigiano Reggiano detail modal](./docs/screenshots/04-detail-modal.png)
 
@@ -81,7 +87,13 @@ Entries pull from researched notes (consortia, journalism, court records, and la
 
 ---
 
-### 5. Family filter — rind taxonomy in action
+### 6. Story Wheel
+
+**Roll the Wheel** draws from the curated `isBizarreLore` pool (40 cheeses) via a shuffle bag — every pool member appears once before any repeat. Spotlight is typography-first; photos are additive when present. Gated by `TCA_CONFIG.features.storyWheel`.
+
+---
+
+### 7. Family filter — rind taxonomy in action
 
 Filter to a family and the grid collapses to that shelf. Below: **Blue** — Gorgonzola, Roquefort, Stilton, Cabrales.
 
@@ -96,16 +108,28 @@ Static site — no bundler required. Vercel serves the root as-is.
 ```
 the-cheese-atlas/
 ├── index.html          # page shell (hero, controls, grid, modal)
-├── styles.css          # creamery theme + responsive layout
-├── app.js              # search, chips, cards, modal, carousel
+├── styles.css          # creamery theme, matrix, spotlight, motion tokens
+├── config.js           # feature flags (+ ?flags= override)
+├── store.js            # CheeseStore (EventTarget pub/sub, selectVisible)
+├── modal.js            # shared dialog + cheese wire
+├── matrix.js           # Flavor & Texture matrix
+├── story-wheel.js      # Surprise Story Wheel
+├── app.js              # baseline UI + feature init orchestration
 ├── data-part1.js … 6   # 72 cheese records (concat into window.CHEESES)
 ├── vercel.json         # cache headers for static deploy
-├── package.json        # local preview scripts
-├── docs/screenshots/   # README renders
-└── scripts/            # optional screenshot capture helper
+├── package.json        # preview + npm run check
+├── docs/
+│   ├── architecture-design.md
+│   ├── screenshots/    # README renders
+│   └── TCA2/           # axis-score research (MATRIX-TABLE.json enforced by check)
+└── scripts/
+    ├── check-data.mjs  # cheese data integrity
+    └── capture-screenshots.mjs
 ```
 
 `backup-script/` (Vercel recovery tooling) is **gitignored** and stays local-only.
+
+Standing architecture notes: [`docs/architecture-design.md`](./docs/architecture-design.md).
 
 ---
 
@@ -116,6 +140,10 @@ Each cheese record looks like:
 ```js
 {
   id: "parmigiano-reggiano",
+  schemaVersion: 2,
+  mildStinky: 4,             // 1 = mild … 10 = pungent (matrix X)
+  softHard: 9,               // 1 = soft … 10 = hard (matrix Y)
+  isBizarreLore: true,       // Story Wheel pool membership (explicit bool)
   name: "Parmigiano Reggiano",
   country: "Italy",
   region: "Europe",          // Europe | Americas | Middle East & Africa | Asia & Caucasus
@@ -131,7 +159,7 @@ Each cheese record looks like:
 }
 ```
 
-Catalogue is split across `data-part1.js`–`data-part6.js` so each file stays editable; `app.js` reads the concatenated `window.CHEESES` array.
+Catalogue is split across `data-part1.js`–`data-part6.js`. Axis scores must match `docs/TCA2/MATRIX-TABLE.json`; the Story Wheel pool must match the approved id list embedded in `scripts/check-data.mjs`.
 
 ---
 
@@ -142,9 +170,14 @@ Requires **Node 18+**.
 ```bash
 npm run dev
 # → http://localhost:3000
+
+npm run check
+# validates 72 records, scores, and Story Wheel pool
 ```
 
 Or open `index.html` directly in a browser (search/filter still work; some browsers are pickier with `file://`).
+
+Feature flag QA without editing files: `?flags=matrix:off` or `?flags=matrix:off,storyWheel:off`.
 
 ---
 
@@ -167,6 +200,7 @@ Preview every PR by connecting the repo; production tracks your main branch.
 | `--curd` / `--curd-dim` | Cream type & cards |
 | `--wax-gold` | Brand accent, active chips, stats |
 | `--rind-rust` | Modal field labels |
+| `--motion-fast` / `--motion-base` / `--motion-ease` | Shared animation timing |
 | **Big Shoulders Display** | Display titles |
 | **Source Serif 4** | Body copy |
 | **Space Mono** | Ledger UI (chips, labels, footer) |

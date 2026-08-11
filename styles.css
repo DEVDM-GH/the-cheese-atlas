@@ -20,6 +20,9 @@
   --line-dark:   rgba(28,24,20,0.12);
   --shadow: 0 18px 40px -18px rgba(0,0,0,0.45);
   --radius: 14px;
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 *, *::before, *::after{ box-sizing:border-box; }
@@ -113,6 +116,26 @@ h1.title em{
   color: var(--curd-dim);
 }
 
+.story-wheel-trigger{
+  margin-top: 28px;
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--wax-gold);
+  border: 1px solid var(--wax-gold);
+  border-radius: 999px;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+.story-wheel-trigger:hover,
+.story-wheel-trigger:focus-visible{
+  background: var(--wax-gold);
+  color: var(--cave-deep);
+  outline: none;
+}
+
 /* ---------------- Controls (ledger bar) ---------------- */
 .controls{
   position: sticky;
@@ -187,6 +210,190 @@ h1.title em{
   font-weight:700;
 }
 
+/* ---------------- Flavor & Texture matrix ---------------- */
+.matrix-section{
+  padding: 18px 0 8px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(28,24,20,0.55), rgba(28,24,20,0.15));
+}
+.matrix-toggle{
+  display:none;
+  width:100%;
+  margin-bottom: 12px;
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--cave-deep);
+  color: var(--curd);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+.matrix-toggle:focus-visible{
+  outline: 2px solid var(--wax-gold);
+  outline-offset: 2px;
+}
+.matrix-panel{ display:block; }
+.matrix-head{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 14px 24px;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom: 12px;
+}
+.matrix-title{
+  font-family:'Big Shoulders Display', sans-serif;
+  font-weight:800;
+  text-transform:uppercase;
+  font-size: 1.55rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 4px;
+  color: var(--curd);
+}
+.matrix-sub{
+  margin:0;
+  color: var(--curd-dim);
+  font-size: 0.95rem;
+  max-width: 36ch;
+}
+.matrix-tools{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  flex-wrap:wrap;
+}
+.matrix-live-count{
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--wax-gold);
+  min-height: 1.2em;
+}
+.matrix-clear{
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--curd);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.matrix-clear:disabled{
+  opacity: 0.4;
+  cursor: default;
+}
+.matrix-clear:not(:disabled):hover{
+  border-color: var(--wax-gold);
+  color: var(--wax-gold);
+}
+.matrix-landmark-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.matrix-landmark-btn{
+  font-family:'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--curd-dim);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.matrix-landmark-btn:hover,
+.matrix-landmark-btn:focus-visible{
+  border-color: var(--wax-gold);
+  color: var(--curd);
+  outline: none;
+}
+.matrix-plot{
+  position: relative;
+  touch-action: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(214,161,56,0.08), transparent 55%),
+    var(--cave-deep);
+  overflow: hidden;
+  min-height: 280px;
+}
+.matrix-svg{
+  display:block;
+  width:100%;
+  height: 320px;
+  cursor: crosshair;
+}
+.matrix-axis-line{
+  stroke: rgba(246,237,216,0.22);
+  stroke-width: 1;
+}
+.matrix-axis-label{
+  fill: rgba(246,237,216,0.55);
+  font-family:'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.matrix-landmark-hint{
+  fill: rgba(246,237,216,0.28);
+  font-family:'Space Mono', monospace;
+  font-size: 10px;
+  pointer-events: none;
+}
+.matrix-boundary{
+  fill: rgba(214,161,56,0.10);
+  stroke: rgba(214,161,56,0.55);
+  stroke-width: 1.25;
+  pointer-events: none;
+}
+.matrix-dot{
+  fill: var(--curd-dim);
+  stroke: rgba(28,24,20,0.35);
+  stroke-width: 1;
+  pointer-events: none;
+  transition: opacity var(--motion-fast) var(--motion-ease), fill var(--motion-fast) var(--motion-ease);
+}
+.matrix-dot.is-dimmed{ opacity: 0.22; }
+.matrix-dot.is-selected{ fill: var(--wax-gold); opacity: 1; }
+.matrix-crosshair{
+  transform-origin: 0 0;
+  outline: none;
+}
+.matrix-crosshair.is-animating{
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+.matrix-crosshair-arm{
+  stroke: var(--wax-gold);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.matrix-crosshair-hub{
+  fill: var(--wax-gold);
+  stroke: var(--cave-deep);
+  stroke-width: 1;
+  pointer-events: none;
+}
+.matrix-crosshair:focus-visible .matrix-crosshair-hub{
+  stroke: var(--curd);
+  stroke-width: 2;
+}
+.matrix-section.is-active .matrix-title{ color: var(--wax-gold); }
+
+@media (max-width: 720px){
+  .matrix-toggle{ display:block; }
+  .matrix-section.is-collapsed .matrix-panel{ display:none; }
+  .matrix-svg{ height: 260px; }
+  .matrix-plot{ min-height: 220px; }
+}
+
 /* ---------------- Grid ---------------- */
 .grid-section{ padding: 34px 0 90px; }
 .grid{
@@ -199,6 +406,11 @@ h1.title em{
   padding: 70px 20px;
   color: var(--curd-dim);
   font-family:'Space Mono', monospace;
+  grid-column: 1 / -1;
+}
+.empty-state.is-hidden,
+.card.is-hidden{
+  display: none;
 }
 
 /* ---------------- Card ---------------- */
@@ -329,6 +541,149 @@ h1.title em{
   z-index: 5;
 }
 .modal-close:hover{ background: var(--cave); color:var(--curd); }
+
+/* Spotlight variant — typography-first story wheel */
+.modal--spotlight{
+  max-width: 760px;
+  background: var(--cave-deep);
+  color: var(--curd);
+  border: 1px solid var(--line);
+}
+.modal--spotlight .modal-close{
+  background: transparent;
+  color: var(--curd);
+  border-color: var(--line);
+}
+.modal--spotlight .modal-close:hover{
+  background: var(--wax-gold);
+  color: var(--cave-deep);
+}
+.spotlight{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 28px;
+  align-items:stretch;
+}
+.spotlight-copy{
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.spotlight-kicker{
+  font-family:'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wax-gold);
+  margin: 0 0 10px;
+}
+.spotlight-name{
+  font-family:'Big Shoulders Display', sans-serif;
+  font-weight:900;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 0.95;
+  margin: 0 0 18px;
+  color: var(--curd);
+}
+.spotlight-quote{
+  margin: 0;
+  font-family:'Source Serif 4', Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--curd-dim);
+}
+.spotlight-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+.spotlight-reroll,
+.spotlight-detail{
+  font-family:'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.spotlight-reroll{
+  background: var(--wax-gold);
+  color: var(--cave-deep);
+  border: 1px solid var(--wax-gold);
+}
+.spotlight-detail{
+  background: transparent;
+  color: var(--curd);
+  border: 1px solid var(--line);
+}
+.spotlight-detail:hover,
+.spotlight-detail:focus-visible{
+  border-color: var(--wax-gold);
+  color: var(--wax-gold);
+  outline: none;
+}
+.spotlight-photo{
+  flex: 0 1 260px;
+  margin: 0;
+  min-width: 0;
+}
+.spotlight-photo img{
+  display:block;
+  width:100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.spotlight-credit{
+  margin-top: 8px;
+  font-family:'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(246,237,216,0.45);
+}
+@media (max-width: 640px){
+  .spotlight{ flex-direction: column; }
+  .spotlight-photo{ flex-basis: auto; order: 2; }
+  .spotlight-copy{ order: 1; }
+}
+
+/* Decorative cheese-wire sweep — never load-bearing for modal visibility */
+.cheese-wire{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:4;
+  overflow:hidden;
+  border-radius:inherit;
+}
+.cheese-wire svg{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.cheese-wire-group{
+  transform: translateX(-12%);
+}
+.cheese-wire.is-running .cheese-wire-group{
+  animation: cheese-wire-sweep calc(var(--motion-base) * 2) var(--motion-ease) forwards;
+}
+.cheese-wire-trail{
+  stroke: rgba(214, 161, 56, 0.28);
+  stroke-width: 2.8;
+  stroke-linecap: round;
+}
+.cheese-wire-blade{
+  stroke: rgba(42, 38, 34, 0.55);
+  stroke-width: 0.55;
+  stroke-linecap: round;
+}
+@keyframes cheese-wire-sweep{
+  from{ transform: translateX(-12%); }
+  to{ transform: translateX(112%); }
+}
+
 .modal-head{ display:flex; gap:20px; align-items:center; margin-bottom: 6px; padding-right: 44px; }
 .modal-wheel{ width:72px; height:72px; border-radius:50%; flex-shrink:0; box-shadow: inset 0 0 0 3px rgba(0,0,0,0.08); }
 .modal-name{
