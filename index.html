@@ -26,18 +26,25 @@
 <div class="controls">
   <div class="wrap">
     <div class="search-row">
-      <input type="search" id="searchInput" placeholder="Search a cheese, country, or ingredient…" aria-label="Search cheeses">
-      <div class="count-pill"><span id="resultCount">72 cheeses</span></div>
+      <input type="search" id="searchInput" placeholder="Search name, country, or milk…" aria-label="Search cheeses">
+      <div class="count-pill is-idle" id="countPill"><span id="resultCount">72 cheeses</span></div>
     </div>
     <div class="chip-groups">
-      <div class="chip-row">
-        <span class="chip-label">Family</span>
+      <div class="chip-row" id="familyRow">
+        <span class="chip-label">Rind</span>
         <div id="familyChips" style="display:contents;"></div>
       </div>
-      <div class="chip-row">
-        <span class="chip-label">Region</span>
+      <button type="button" class="where-toggle" id="whereToggle" aria-expanded="false" aria-controls="regionRow">
+        Where from <span class="where-hint" id="whereHint">All regions</span>
+      </button>
+      <div class="chip-row region-row" id="regionRow">
+        <span class="chip-label">Where</span>
         <div id="regionChips" style="display:contents;"></div>
       </div>
+    </div>
+    <div class="active-line" id="activeLine" hidden>
+      <div class="active-bits" id="activeBits"></div>
+      <button type="button" class="clear-all" id="clearAll">Clear all</button>
     </div>
   </div>
 </div>
