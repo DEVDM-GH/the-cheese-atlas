@@ -44,9 +44,10 @@ A sticky control bar that stays with you while you scroll the shelves.
 | Control | Behaviour |
 | --- | --- |
 | **Search** | Matches cheese name, country, origin, or milk |
-| **Family chips** | Fresh → Soft-Ripened → Washed-Rind → Semi-Soft → Semi-Hard → Hard & Aged → Blue → Stretched-Curd → Whey & Other |
-| **Region chips** | Europe · Americas · Middle East & Africa · Asia & Caucasus |
-| **Count pill** | Live result total (e.g. `72 cheeses` → `4 cheeses`) |
+| **Rind tabs** | All rinds → Fresh → Soft-Ripened → Washed-Rind → Semi-Soft → Semi-Hard → Hard & Aged → Blue → Stretched-Curd → Whey & Other (with wheel swatches) |
+| **Where tabs** | Europe · Americas · Middle East & Africa · Asia & Caucasus — collapses behind **Where from** on small viewports |
+| **Count** | Live result total; wax-gold only when a filter is active |
+| **Active line** | Summary of the current cut + **Clear all** |
 
 ---
 

@@ -37,10 +37,17 @@
 
   var grid = document.getElementById("grid");
   var resultCount = document.getElementById("resultCount");
+  var countPill = document.getElementById("countPill");
   var filterLive = document.getElementById("filterLive");
   var searchInput = document.getElementById("searchInput");
   var familyChips = document.getElementById("familyChips");
   var regionChips = document.getElementById("regionChips");
+  var regionRow = document.getElementById("regionRow");
+  var whereToggle = document.getElementById("whereToggle");
+  var whereHint = document.getElementById("whereHint");
+  var activeLine = document.getElementById("activeLine");
+  var activeBits = document.getElementById("activeBits");
+  var clearAllBtn = document.getElementById("clearAll");
   var totalCountEl = document.getElementById("totalCount");
   var countryCountEl = document.getElementById("countryCount");
 
@@ -56,33 +63,89 @@
     });
   }
 
-  function buildChips(container, items, labelFn, key){
-    var allBtn = makeChip("All", "all", key);
+  function buildChips(container, items, labelFn, key, allLabel){
+    var allBtn = makeChip(allLabel, "all", key, false);
     container.appendChild(allBtn);
     items.forEach(function(item){
-      container.appendChild(makeChip(labelFn(item), item, key));
+      container.appendChild(makeChip(labelFn(item), item, key, key === "family"));
     });
   }
 
-  function makeChip(label, value, key){
+  function makeChip(label, value, key, withSwatch){
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "chip";
-    btn.textContent = label;
     btn.dataset.value = value;
     btn.setAttribute("aria-pressed", value === "all" ? "true" : "false");
+    if (withSwatch && value !== "all") {
+      var swatch = document.createElement("span");
+      swatch.className = "chip-swatch " + value;
+      swatch.setAttribute("aria-hidden", "true");
+      btn.appendChild(swatch);
+      btn.appendChild(document.createTextNode(label));
+    } else {
+      btn.textContent = label;
+    }
     btn.addEventListener("click", function(){
       var patch = {};
       patch[key] = value;
       CheeseStore.set(patch);
-      var siblings = container_for(key).querySelectorAll(".chip");
-      siblings.forEach(function(s){ s.setAttribute("aria-pressed", s.dataset.value === value ? "true" : "false"); });
+      if (key === "region" && regionRow) {
+        regionRow.classList.remove("is-open");
+        if (whereToggle) whereToggle.setAttribute("aria-expanded", "false");
+      }
     });
     return btn;
   }
 
-  function container_for(key){
-    return key === "family" ? familyChips : regionChips;
+  function syncChipPressed(){
+    var state = CheeseStore.get();
+    familyChips.querySelectorAll(".chip").forEach(function(btn){
+      btn.setAttribute("aria-pressed", btn.dataset.value === state.family ? "true" : "false");
+    });
+    regionChips.querySelectorAll(".chip").forEach(function(btn){
+      btn.setAttribute("aria-pressed", btn.dataset.value === state.region ? "true" : "false");
+    });
+  }
+
+  function matrixIsActive(){
+    var state = CheeseStore.get();
+    return !!(window.TCA_CONFIG && window.TCA_CONFIG.features && window.TCA_CONFIG.features.matrix && state.matrix && state.matrix.active);
+  }
+
+  function isFiltered(){
+    var state = CheeseStore.get();
+    return state.family !== "all" || state.region !== "all" || !!state.query.trim() || matrixIsActive();
+  }
+
+  function updateActiveLine(){
+    var state = CheeseStore.get();
+    var bits = [];
+    if (state.family !== "all") {
+      bits.push("<strong>" + escapeHtml(FAMILY_LABELS[state.family] || state.family) + "</strong>");
+    }
+    if (state.region !== "all") {
+      bits.push("<strong>" + escapeHtml(state.region) + "</strong>");
+    }
+    if (matrixIsActive()) {
+      bits.push("<strong>Taste</strong>");
+    }
+    if (state.query.trim()) {
+      bits.push("<strong>\u201c" + escapeHtml(state.query.trim()) + "\u201d</strong>");
+    }
+    if (!bits.length) {
+      activeLine.hidden = true;
+      activeBits.innerHTML = "";
+      return;
+    }
+    activeLine.hidden = false;
+    activeBits.innerHTML = bits.join('<span class="sep">\u00b7</span>');
+  }
+
+  function updateWhereHint(){
+    var state = CheeseStore.get();
+    if (!whereHint) return;
+    whereHint.textContent = state.region === "all" ? "All regions" : state.region;
   }
 
   function cardTeaser(cheese){
@@ -113,7 +176,7 @@
     var frag = document.createDocumentFragment();
     emptyState = document.createElement("div");
     emptyState.className = "empty-state is-hidden";
-    emptyState.textContent = "No cheese matches that search. Try a different region, family, or word.";
+    emptyState.textContent = "No cheese matches that cut of the ledger. Try a different rind, region, or word.";
     frag.appendChild(emptyState);
 
     CHEESES.forEach(function(cheese){
@@ -148,6 +211,11 @@
     emptyState.classList.toggle("is-hidden", filtered.length !== 0);
 
     resultCount.textContent = filtered.length + (filtered.length === 1 ? " cheese" : " cheeses");
+    countPill.classList.toggle("is-idle", !isFiltered());
+    countPill.classList.toggle("is-filtered", isFiltered());
+    syncChipPressed();
+    updateActiveLine();
+    updateWhereHint();
     scheduleAnnounce(filtered.length);
   }
 
@@ -218,10 +286,34 @@
     CheeseStore.set({ query: searchInput.value });
   });
 
+  if (whereToggle && regionRow) {
+    whereToggle.addEventListener("click", function(){
+      var open = !regionRow.classList.contains("is-open");
+      regionRow.classList.toggle("is-open", open);
+      whereToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", function(){
+      searchInput.value = "";
+      CheeseStore.set({
+        query: "",
+        family: "all",
+        region: "all",
+        matrix: { active: false }
+      });
+      if (regionRow) {
+        regionRow.classList.remove("is-open");
+        if (whereToggle) whereToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
   CheeseStore.subscribe(function(){ render(); });
 
-  buildChips(familyChips, FAMILY_ORDER, function(f){ return FAMILY_LABELS[f]; }, "family");
-  buildChips(regionChips, REGION_ORDER, function(r){ return r; }, "region");
+  buildChips(familyChips, FAMILY_ORDER, function(f){ return FAMILY_LABELS[f]; }, "family", "All rinds");
+  buildChips(regionChips, REGION_ORDER, function(r){ return r; }, "region", "All regions");
 
   totalCountEl.textContent = CHEESES.length;
   var uniqueCountries = new Set(CHEESES.map(function(c){ return c.country; }));
