@@ -1,0 +1,4 @@
+This skill is adapted from Anthropic's frontend-design Agent Skill:
+https://github.com/anthropics/skills/tree/main/skills/frontend-design
+Licensed under the Apache License, Version 2.0 (see LICENSE.txt).
+Project-specific additions: Cursor paths frontmatter, existing-product exception, and references/cheese-atlas.md.
