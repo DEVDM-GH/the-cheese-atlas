@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sandbox — Ledger filters (proposed)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cave:#2b2620; --cave-deep:#1c1814; --curd:#f6edd8; --curd-dim:#ece0c4;
+  --wax-gold:#d6a138; --ink:#2a2622; --ink-soft:#57503f;
+  --line:rgba(246,237,216,0.14); --radius:14px;
+  --motion-fast:160ms; --motion-ease:cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--curd);
+  font-family:'Source Serif 4', Georgia, serif;
+  background:var(--cave);
+  background-image:
+    radial-gradient(ellipse at 20% -10%, rgba(214,161,56,.10), transparent 55%),
+    radial-gradient(ellipse at 90% 10%, rgba(92,122,138,.08), transparent 45%);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.sandbox-banner{
+  position:sticky; top:0; z-index:50;
+  background:rgba(20,17,14,.94); border-bottom:1px solid var(--line);
+  padding:10px 0; backdrop-filter:blur(8px);
+}
+.sandbox-banner .wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.sandbox-banner h1{
+  margin:0; font-family:'Space Mono',monospace; font-size:12px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--wax-gold);
+}
+.sandbox-banner p{margin:0; font-size:.9rem; color:var(--curd-dim); max-width:42rem}
+.mode-toggle{display:flex; gap:6px}
+.mode-toggle button{
+  font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  border:1px solid var(--line); background:transparent; color:var(--curd-dim);
+  padding:8px 12px; border-radius:4px; cursor:pointer;
+}
+.mode-toggle button[aria-pressed="true"]{background:var(--wax-gold); color:var(--cave-deep); border-color:var(--wax-gold); font-weight:700}
+.viewport-toggle{display:flex; gap:6px}
+.viewport-toggle button{
+  font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  border:1px solid var(--line); background:transparent; color:var(--curd-dim);
+  padding:8px 12px; border-radius:4px; cursor:pointer;
+}
+.viewport-toggle button[aria-pressed="true"]{border-color:var(--wax-gold); color:var(--curd)}
+
+.stage-shell{padding:28px 0 60px}
+.stage{
+  margin:0 auto; transition:max-width var(--motion-fast) var(--motion-ease);
+  border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  background:rgba(28,24,20,.55);
+}
+.stage.is-mobile{max-width:390px}
+.stage.is-desktop{max-width:1180px}
+
+.site-header{padding:36px 24px 28px; border-bottom:1px solid var(--line)}
+.crumb{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--wax-gold);margin-bottom:14px}
+.title{font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;
+  font-size:clamp(2rem,6vw,3.4rem);line-height:.95;margin:0 0 12px}
+.title em{font-style:normal;color:var(--wax-gold)}
+.hero-sub{margin:0;color:var(--curd-dim);max-width:34rem;font-size:1rem}
+
+/* ===== CURRENT (baseline) ===== */
+.controls-current{
+  background:rgba(28,24,20,.92); border-bottom:1px solid var(--line); padding:16px 24px;
+}
+.search-row{display:flex;gap:12px;margin-bottom:14px}
+.search-row input{
+  flex:1; background:var(--cave-deep); border:1px solid var(--line); color:var(--curd);
+  padding:12px 16px; border-radius:999px; font-family:'Source Serif 4',serif; font-size:1rem;
+}
+.count-pill{
+  font-family:'Space Mono',monospace; font-size:12px; color:var(--cave-deep);
+  background:var(--wax-gold); border-radius:999px; padding:0 16px; display:flex; align-items:center; white-space:nowrap;
+}
+.chip-groups{display:flex;flex-direction:column;gap:10px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-right:4px}
+.chip{
+  font-family:'Space Mono',monospace; font-size:12px; background:transparent; border:1px solid var(--line);
+  color:var(--curd-dim); padding:6px 13px; border-radius:999px; cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--wax-gold);border-color:var(--wax-gold);color:var(--cave-deep);font-weight:700}
+
+/* ===== PROPOSED ===== */
+.controls-proposed{
+  background:rgba(28,24,20,.94); border-bottom:1px solid var(--line); padding:14px 24px 12px;
+}
+.proposed .search-row input{
+  border-radius:6px; /* softer ledger line, not app pill */
+  font-size:.98rem;
+}
+.count-pill.is-idle{
+  background:transparent; color:var(--curd-dim); border:1px solid var(--line); border-radius:4px;
+}
+.count-pill.is-filtered{
+  background:var(--wax-gold); color:var(--cave-deep); border:1px solid var(--wax-gold); border-radius:4px; font-weight:700;
+}
+.ledger-label{
+  font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-soft); min-width:5.5rem;
+}
+.ledger-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.tab{
+  font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.03em;
+  background:transparent; border:1px solid var(--line); color:var(--curd-dim);
+  padding:7px 11px; border-radius:4px; cursor:pointer;
+  display:inline-flex; align-items:center; gap:7px;
+  transition:background var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.tab:hover{border-color:var(--wax-gold); color:var(--curd)}
+.tab[aria-pressed="true"]{background:var(--wax-gold); border-color:var(--wax-gold); color:var(--cave-deep); font-weight:700}
+.tab .swatch{
+  width:14px; height:14px; border-radius:50%; flex-shrink:0;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
+}
+.swatch.fresh{background:radial-gradient(circle at 35% 30%, #fffdf6, #f3ecd9 70%)}
+.swatch.soft-ripened{background:#efe6cf; border:1px solid #fffef9}
+.swatch.washed-rind{background:radial-gradient(circle at 35% 30%, #f2b25a, #b5601f 85%)}
+.swatch.semi-soft{background:radial-gradient(circle at 35% 30%, #fbe9a8, #e9c65a 85%)}
+.swatch.semi-hard{background:radial-gradient(circle at 35% 30%, #f3d27e, #cf9a2d 85%)}
+.swatch.hard{background:radial-gradient(circle at 35% 30%, #e0ae55, #93611c 85%)}
+.swatch.blue{background:
+  radial-gradient(circle at 30% 30%, rgba(92,122,138,.9) 0 2px, transparent 3px),
+  radial-gradient(circle at 65% 55%, rgba(92,122,138,.8) 0 2px, transparent 3px),
+  #fffef8}
+.swatch.pasta-filata{background:radial-gradient(circle at 30% 25%, #fff, #eee6d2 75%)}
+.swatch.whey-other{background:radial-gradient(circle at 35% 30%, #c98a4b, #7a4a1e 85%)}
+
+.active-line{
+  margin-top:12px; padding-top:10px; border-top:1px dashed var(--line);
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+  min-height:28px;
+}
+.active-line[hidden]{display:none}
+.active-bits{
+  font-family:'Space Mono',monospace; font-size:12px; color:var(--curd-dim);
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+}
+.active-bits strong{color:var(--curd); font-weight:700}
+.active-bits .sep{opacity:.35}
+.clear-all{
+  font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  background:transparent; border:none; color:var(--wax-gold); cursor:pointer; padding:4px 0;
+  text-decoration:underline; text-underline-offset:3px;
+}
+.where-toggle{
+  display:none; width:100%; margin-top:10px;
+  font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  background:var(--cave-deep); border:1px solid var(--line); color:var(--curd);
+  padding:10px 12px; border-radius:4px; cursor:pointer; text-align:left;
+}
+.where-toggle .hint{float:right; color:var(--ink-soft)}
+.stage.is-mobile .where-toggle{display:block}
+.stage.is-mobile .region-row{display:none}
+.stage.is-mobile .region-row.is-open{display:flex}
+
+.taste-row{margin-top:10px}
+.taste-chip{
+  font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.04em;
+  background:transparent; border:1px dashed var(--line); color:var(--curd-dim);
+  padding:7px 11px; border-radius:4px; cursor:pointer;
+}
+.taste-chip[aria-pressed="true"]{
+  border-style:solid; border-color:var(--wax-gold); color:var(--cave-deep); background:var(--wax-gold); font-weight:700;
+}
+
+.grid-section{padding:22px 24px 28px}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px}
+.stage.is-mobile .grid{grid-template-columns:1fr}
+.card{
+  background:var(--curd); color:var(--ink); border-radius:var(--radius); padding:16px;
+  display:flex; flex-direction:column; gap:10px; border:1px solid transparent;
+}
+.card.is-hidden{display:none}
+.card-top{display:flex; align-items:center; gap:12px}
+.wheel{width:48px;height:48px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 3px rgba(0,0,0,.06)}
+.wheel.blue{background:
+  radial-gradient(circle at 30% 30%, rgba(92,122,138,.9) 0 5px, transparent 6px),
+  radial-gradient(circle at 65% 45%, rgba(92,122,138,.8) 0 4px, transparent 5px),
+  radial-gradient(circle at 40% 70%, rgba(92,122,138,.85) 0 6px, transparent 7px),
+  #fffef8}
+.wheel.hard{background:radial-gradient(circle at 35% 30%, #e0ae55, #93611c 85%)}
+.wheel.washed-rind{background:radial-gradient(circle at 35% 30%, #f2b25a, #b5601f 85%)}
+.wheel.fresh{background:radial-gradient(circle at 35% 30%, #fffdf6, #f3ecd9 70%)}
+.card-name{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:1.2rem;text-transform:uppercase;line-height:1.05;margin:0}
+.card-meta{font-family:'Space Mono',monospace;font-size:10px;color:var(--ink-soft);margin:0}
+.card-hook{font-size:.88rem;color:var(--ink-soft);margin:0;line-height:1.4}
+.note{
+  margin:18px 24px 0; padding:12px 14px; border-left:2px solid var(--wax-gold);
+  font-family:'Space Mono',monospace; font-size:11px; color:var(--curd-dim); line-height:1.5;
+}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+  <div class="sandbox-banner">
+    <div class="wrap">
+      <div>
+        <h1>Sandbox preview · not production</h1>
+        <p>Proposed ledger filters: squared tabs, rind swatches, muted idle count, active line + Clear all, mobile “Where from” disclosure, Taste as a ledger control.</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <div class="mode-toggle" role="group" aria-label="Design mode">
+          <button type="button" id="modeCurrent" aria-pressed="false">Current</button>
+          <button type="button" id="modeProposed" aria-pressed="true">Proposed</button>
+        </div>
+        <div class="viewport-toggle" role="group" aria-label="Viewport">
+          <button type="button" id="vpDesktop" aria-pressed="true">Desktop</button>
+          <button type="button" id="vpMobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-shell">
+    <div class="wrap">
+      <div class="stage is-desktop" id="stage">
+        <header class="site-header">
+          <div class="crumb">Sandbox · filter ledger</div>
+          <h2 class="title">The Cheese <em>Atlas</em></h2>
+          <p class="hero-sub">A field guide to the world’s cheese wheels — try the filters below.</p>
+        </header>
+
+        <!-- CURRENT -->
+        <div class="controls-current" id="controlsCurrent" hidden>
+          <div class="search-row">
+            <input type="search" value="" placeholder="Search a cheese, country, or ingredient…" aria-label="Search cheeses">
+            <div class="count-pill" id="countCurrent">72 cheeses</div>
+          </div>
+          <div class="chip-groups">
+            <div class="chip-row" id="familyCurrent"></div>
+            <div class="chip-row" id="regionCurrent"></div>
+          </div>
+        </div>
+
+        <!-- PROPOSED -->
+        <div class="controls-proposed proposed" id="controlsProposed">
+          <div class="search-row">
+            <input type="search" id="searchProposed" placeholder="Search name, country, or milk…" aria-label="Search cheeses">
+            <div class="count-pill is-idle" id="countProposed">72 cheeses</div>
+          </div>
+
+          <div class="ledger-row" id="rindRow"></div>
+
+          <button type="button" class="where-toggle" id="whereToggle" aria-expanded="false">
+            Where from <span class="hint" id="whereHint">All regions</span>
+          </button>
+          <div class="ledger-row region-row" id="regionRow"></div>
+
+          <div class="ledger-row taste-row">
+            <span class="ledger-label">Taste</span>
+            <button type="button" class="taste-chip" id="tasteChip" aria-pressed="false">Mild &amp; soft nearby</button>
+            <button type="button" class="taste-chip" id="tasteClear" hidden>Clear taste</button>
+          </div>
+
+          <div class="active-line" id="activeLine" hidden>
+            <div class="active-bits" id="activeBits"></div>
+            <button type="button" class="clear-all" id="clearAll">Clear all</button>
+          </div>
+        </div>
+
+        <section class="grid-section">
+          <div class="grid" id="grid"></div>
+          <p class="note" id="modeNote">
+            Proposed: wax-gold count only when filtered · rind tabs with wheel swatches · active summary · mobile collapses region behind “Where from”.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var FAMILIES = [
+    {id:"all", label:"All"},
+    {id:"fresh", label:"Fresh"},
+    {id:"soft-ripened", label:"Soft-Ripened"},
+    {id:"washed-rind", label:"Washed-Rind"},
+    {id:"semi-soft", label:"Semi-Soft"},
+    {id:"semi-hard", label:"Semi-Hard"},
+    {id:"hard", label:"Hard & Aged"},
+    {id:"blue", label:"Blue"},
+    {id:"pasta-filata", label:"Stretched-Curd"},
+    {id:"whey-other", label:"Whey & Other"}
+  ];
+  var REGIONS = [
+    {id:"all", label:"All"},
+    {id:"Europe", label:"Europe"},
+    {id:"Americas", label:"Americas"},
+    {id:"Middle East & Africa", label:"Middle East & Africa"},
+    {id:"Asia & Caucasus", label:"Asia & Caucasus"}
+  ];
+  var CHEESES = [
+    {name:"Gorgonzola", family:"blue", region:"Europe", milk:"Cow", hook:"Marbled, pungent, and spoonable when young."},
+    {name:"Roquefort", family:"blue", region:"Europe", milk:"Sheep", hook:"Cave-aged sheep’s milk with a sharp blue bite."},
+    {name:"Stilton", family:"blue", region:"Europe", milk:"Cow", hook:"English blue with a crumbly paste and creamy finish."},
+    {name:"Cabrales", family:"blue", region:"Europe", milk:"Mixed", hook:"Asturian powerhouse aged in mountain caves."},
+    {name:"Parmigiano Reggiano", family:"hard", region:"Europe", milk:"Cow", hook:"Granular, crystalline, and built for grating."},
+    {name:"Époisses", family:"washed-rind", region:"Europe", milk:"Cow", hook:"Washed in Marc de Bourgogne; boldly aromatic."},
+    {name:"Mozzarella di Bufala", family:"pasta-filata", region:"Europe", milk:"Buffalo", hook:"Stretched curd, milky and soft."},
+    {name:"Chèvre frais", family:"fresh", region:"Europe", milk:"Goat", hook:"Bright, tangy fresh goat cheese."},
+    {name:"Queso Fresco", family:"fresh", region:"Americas", milk:"Cow", hook:"Mild crumbling fresh cheese for the table."},
+    {name:"Sulguni", family:"pasta-filata", region:"Asia & Caucasus", milk:"Cow", hook:"Georgian stretched curd, elastic and briny."}
+  ];
+
+  var state = { mode:"proposed", family:"all", region:"all", query:"", taste:false, whereOpen:false };
+
+  var stage = document.getElementById("stage");
+  var grid = document.getElementById("grid");
+  var countProposed = document.getElementById("countProposed");
+  var countCurrent = document.getElementById("countCurrent");
+  var activeLine = document.getElementById("activeLine");
+  var activeBits = document.getElementById("activeBits");
+  var tasteChip = document.getElementById("tasteChip");
+  var tasteClear = document.getElementById("tasteClear");
+  var whereToggle = document.getElementById("whereToggle");
+  var whereHint = document.getElementById("whereHint");
+  var regionRow = document.getElementById("regionRow");
+  var modeNote = document.getElementById("modeNote");
+
+  function familyLabel(id){
+    var f = FAMILIES.find(function(x){ return x.id === id; });
+    return f ? f.label : id;
+  }
+
+  function buildCurrent(){
+    var fam = document.getElementById("familyCurrent");
+    var reg = document.getElementById("regionCurrent");
+    fam.innerHTML = '<span class="chip-label">Family</span>';
+    reg.innerHTML = '<span class="chip-label">Region</span>';
+    FAMILIES.forEach(function(f){
+      var b = document.createElement("button");
+      b.type="button"; b.className="chip"; b.textContent=f.label; b.dataset.value=f.id;
+      b.setAttribute("aria-pressed", f.id===state.family?"true":"false");
+      b.onclick=function(){ state.family=f.id; sync(); };
+      fam.appendChild(b);
+    });
+    REGIONS.forEach(function(r){
+      var b = document.createElement("button");
+      b.type="button"; b.className="chip"; b.textContent=r.label; b.dataset.value=r.id;
+      b.setAttribute("aria-pressed", r.id===state.region?"true":"false");
+      b.onclick=function(){ state.region=r.id; sync(); };
+      reg.appendChild(b);
+    });
+  }
+
+  function buildProposed(){
+    var rind = document.getElementById("rindRow");
+    rind.innerHTML = '<span class="ledger-label">Rind</span>';
+    FAMILIES.forEach(function(f){
+      var b = document.createElement("button");
+      b.type="button"; b.className="tab"; b.dataset.value=f.id;
+      b.setAttribute("aria-pressed", f.id===state.family?"true":"false");
+      if (f.id !== "all") {
+        b.innerHTML = '<span class="swatch '+f.id+'" aria-hidden="true"></span>' + f.label;
+      } else {
+        b.textContent = "All rinds";
+      }
+      b.onclick=function(){ state.family=f.id; sync(); };
+      rind.appendChild(b);
+    });
+
+    regionRow.innerHTML = '<span class="ledger-label">Where</span>';
+    REGIONS.forEach(function(r){
+      var b = document.createElement("button");
+      b.type="button"; b.className="tab"; b.dataset.value=r.id;
+      b.setAttribute("aria-pressed", r.id===state.region?"true":"false");
+      b.textContent = r.id==="all" ? "All regions" : r.label;
+      b.onclick=function(){ state.region=r.id; state.whereOpen=false; sync(); };
+      regionRow.appendChild(b);
+    });
+  }
+
+  function visible(){
+    return CHEESES.filter(function(c){
+      if (state.family !== "all" && c.family !== state.family) return false;
+      if (state.region !== "all" && c.region !== state.region) return false;
+      if (state.taste && !(c.family==="fresh" || c.family==="soft-ripened" || c.family==="pasta-filata")) return false;
+      var q = state.query.trim().toLowerCase();
+      if (!q) return true;
+      return (c.name+" "+c.milk+" "+c.region).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  function renderCards(){
+    var list = visible();
+    grid.innerHTML = "";
+    (list.length ? list : CHEESES.slice(0,0)).forEach(function(c){
+      var el = document.createElement("article");
+      el.className = "card";
+      el.innerHTML =
+        '<div class="card-top"><div class="wheel '+c.family+'" aria-hidden="true"></div>' +
+        '<div><p class="card-name">'+c.name+'</p><p class="card-meta">'+c.milk+' milk · '+c.region+'</p></div></div>' +
+        '<p class="card-hook">'+c.hook+'</p>';
+      grid.appendChild(el);
+    });
+    if (!list.length) {
+      var empty = document.createElement("p");
+      empty.className = "card-hook";
+      empty.style.color = "var(--curd-dim)";
+      empty.textContent = "No cheese matches that cut of the ledger.";
+      grid.appendChild(empty);
+    }
+    var n = list.length;
+    var label = n + (n===1 ? " cheese" : " cheeses");
+    countCurrent.textContent = label;
+    countProposed.textContent = label;
+    var filtered = state.family!=="all" || state.region!=="all" || state.taste || !!state.query.trim();
+    countProposed.classList.toggle("is-idle", !filtered);
+    countProposed.classList.toggle("is-filtered", filtered);
+  }
+
+  function renderActive(){
+    var bits = [];
+    if (state.family !== "all") bits.push("<strong>"+familyLabel(state.family)+"</strong>");
+    if (state.region !== "all") bits.push("<strong>"+state.region+"</strong>");
+    if (state.taste) bits.push("<strong>Mild &amp; soft</strong>");
+    if (state.query.trim()) bits.push("<strong>“"+state.query.trim()+"”</strong>");
+    if (!bits.length) {
+      activeLine.hidden = true;
+      return;
+    }
+    activeLine.hidden = false;
+    activeBits.innerHTML = bits.join('<span class="sep">·</span>');
+  }
+
+  function syncPressed(root, value){
+    root.querySelectorAll("[data-value]").forEach(function(btn){
+      btn.setAttribute("aria-pressed", btn.dataset.value === value ? "true" : "false");
+    });
+  }
+
+  function sync(){
+    document.getElementById("controlsCurrent").hidden = state.mode !== "current";
+    document.getElementById("controlsProposed").hidden = state.mode !== "proposed";
+    document.getElementById("modeCurrent").setAttribute("aria-pressed", state.mode==="current"?"true":"false");
+    document.getElementById("modeProposed").setAttribute("aria-pressed", state.mode==="proposed"?"true":"false");
+    modeNote.textContent = state.mode === "proposed"
+      ? "Proposed: wax-gold count only when filtered · rind tabs with wheel swatches · active summary · mobile collapses region behind “Where from”."
+      : "Current production pattern: fully rounded chips, always-gold count, “Family/Region” labels, no active summary.";
+
+    if (state.mode === "current") {
+      syncPressed(document.getElementById("familyCurrent"), state.family);
+      syncPressed(document.getElementById("regionCurrent"), state.region);
+    } else {
+      syncPressed(document.getElementById("rindRow"), state.family);
+      syncPressed(regionRow, state.region);
+      tasteChip.setAttribute("aria-pressed", state.taste ? "true" : "false");
+      tasteClear.hidden = !state.taste;
+      whereHint.textContent = state.region === "all" ? "All regions" : state.region;
+      whereToggle.setAttribute("aria-expanded", state.whereOpen ? "true" : "false");
+      regionRow.classList.toggle("is-open", state.whereOpen);
+    }
+    renderCards();
+    renderActive();
+  }
+
+  document.getElementById("modeCurrent").onclick = function(){ state.mode="current"; sync(); };
+  document.getElementById("modeProposed").onclick = function(){ state.mode="proposed"; sync(); };
+  document.getElementById("vpDesktop").onclick = function(){
+    stage.classList.add("is-desktop"); stage.classList.remove("is-mobile");
+    this.setAttribute("aria-pressed","true");
+    document.getElementById("vpMobile").setAttribute("aria-pressed","false");
+    state.whereOpen = false; sync();
+  };
+  document.getElementById("vpMobile").onclick = function(){
+    stage.classList.add("is-mobile"); stage.classList.remove("is-desktop");
+    this.setAttribute("aria-pressed","true");
+    document.getElementById("vpDesktop").setAttribute("aria-pressed","false");
+    sync();
+  };
+  tasteChip.onclick = function(){ state.taste = !state.taste; sync(); };
+  tasteClear.onclick = function(){ state.taste = false; sync(); };
+  whereToggle.onclick = function(){ state.whereOpen = !state.whereOpen; sync(); };
+  document.getElementById("clearAll").onclick = function(){
+    state.family="all"; state.region="all"; state.taste=false; state.query="";
+    document.getElementById("searchProposed").value="";
+    sync();
+  };
+  document.getElementById("searchProposed").addEventListener("input", function(e){
+    state.query = e.target.value; sync();
+  });
+
+  buildCurrent();
+  buildProposed();
+  // Demo starting state: Blue filtered — shows gold count + active line
+  state.family = "blue";
+  sync();
+})();
+</script>
+</body>
+</html>

@@ -144,12 +144,12 @@ h1.title em{
   background: rgba(28,24,20,0.92);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--line);
-  padding: 16px 0;
+  padding: 14px 0 12px;
 }
 .search-row{
   display:flex;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .search-row input[type="search"]{
   flex:1;
@@ -157,7 +157,7 @@ h1.title em{
   border: 1px solid var(--line);
   color: var(--curd);
   padding: 12px 16px;
-  border-radius: 999px;
+  border-radius: 6px;
   font-family:'Source Serif 4', serif;
   font-size: 1rem;
 }
@@ -170,13 +170,23 @@ h1.title em{
 .count-pill{
   font-family:'Space Mono', monospace;
   font-size: 12px;
-  color: var(--cave-deep);
-  background: var(--wax-gold);
-  border-radius: 999px;
-  padding: 0 16px;
+  padding: 0 14px;
   display:flex;
   align-items:center;
   white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
+}
+.count-pill.is-idle{
+  color: var(--curd-dim);
+  background: transparent;
+}
+.count-pill.is-filtered{
+  color: var(--cave-deep);
+  background: var(--wax-gold);
+  border-color: var(--wax-gold);
+  font-weight: 700;
 }
 
 .chip-groups{ display:flex; flex-direction:column; gap:10px; }
@@ -184,22 +194,25 @@ h1.title em{
 .chip-row .chip-label{
   font-family:'Space Mono', monospace;
   font-size:10px;
-  letter-spacing:0.1em;
+  letter-spacing:0.12em;
   text-transform:uppercase;
   color: var(--ink-soft);
-  margin-right:4px;
+  min-width: 4.5rem;
 }
 .chip{
   font-family:'Space Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.02em;
+  font-size: 11px;
+  letter-spacing: 0.03em;
   background: transparent;
   border: 1px solid var(--line);
   color: var(--curd-dim);
-  padding: 6px 13px;
-  border-radius: 999px;
+  padding: 7px 11px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
 }
 .chip:hover{ border-color: var(--wax-gold); color: var(--curd); }
 .chip:active{ transform: translateY(1px); }
@@ -208,6 +221,96 @@ h1.title em{
   border-color: var(--wax-gold);
   color: var(--cave-deep);
   font-weight:700;
+}
+.chip-swatch{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+.chip-swatch.fresh{ background: radial-gradient(circle at 35% 30%, #fffdf6, #f3ecd9 70%); }
+.chip-swatch.soft-ripened{ background: #efe6cf; border: 1px solid #fffef9; }
+.chip-swatch.washed-rind{ background: radial-gradient(circle at 35% 30%, #f2b25a, #b5601f 85%); }
+.chip-swatch.semi-soft{ background: radial-gradient(circle at 35% 30%, #fbe9a8, #e9c65a 85%); }
+.chip-swatch.semi-hard{ background: radial-gradient(circle at 35% 30%, #f3d27e, #cf9a2d 85%); }
+.chip-swatch.hard{ background: radial-gradient(circle at 35% 30%, #e0ae55, #93611c 85%); }
+.chip-swatch.blue{ background:
+  radial-gradient(circle at 30% 30%, rgba(92,122,138,0.9) 0 2px, transparent 3px),
+  radial-gradient(circle at 65% 55%, rgba(92,122,138,0.8) 0 2px, transparent 3px),
+  #fffef8;
+}
+.chip-swatch.pasta-filata{ background: radial-gradient(circle at 30% 25%, #ffffff, #eee6d2 75%); }
+.chip-swatch.whey-other{ background: radial-gradient(circle at 35% 30%, #c98a4b, #7a4a1e 85%); }
+
+.where-toggle{
+  display: none;
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--cave-deep);
+  border: 1px solid var(--line);
+  color: var(--curd);
+  padding: 10px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+}
+.where-toggle .where-hint{
+  float: right;
+  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.active-line{
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.active-line[hidden]{ display: none; }
+.active-bits{
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--curd-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.active-bits strong{ color: var(--curd); font-weight: 700; }
+.active-bits .sep{ opacity: 0.35; }
+.clear-all{
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  color: var(--wax-gold);
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.clear-all:hover,
+.clear-all:focus-visible{
+  color: var(--curd);
+  outline: none;
+}
+
+@media (max-width: 720px){
+  .where-toggle{ display: block; }
+  .region-row{ display: none; }
+  .region-row.is-open{ display: flex; }
+  .region-row .chip-label{ display: none; }
 }
 
 /* ---------------- Flavor & Texture matrix ---------------- */
